@@ -11,4 +11,5 @@ public interface IBrandService
     public IList<Brand> GetList();
 
     public void DeleteBrand(int id);
+    public GetBrandListResponse GetList(GetBrandListRequest request);
 }

@@ -59,6 +59,12 @@ public class BrandManager : IBrandService
         // Transaction
 
         IList<Brand> brandList = _brandDal.GetList();
-        return brandList;
+        // brandList.Items diye bir alan yok, bu yüzden mapping konfigurasyonu yapmamız gerekiyor.
+
+        // Brand -> BrandListItemDto
+        // IList<Brand> -> GetBrandListResponse
+
+        GetBrandListResponse response = _mapper.Map<GetBrandListResponse>(brandList); // Mapping
+        return response;
     }
 }

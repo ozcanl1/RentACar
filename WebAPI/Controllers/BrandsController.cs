@@ -1,4 +1,5 @@
-﻿using Business.Abstract;
+﻿using Business;
+using Business.Abstract;
 using Business.Concrete;
 using Business.Requests.Brand;
 using Business.Responses.Brand;
@@ -16,7 +17,7 @@ public class BrandsController : ControllerBase
 {
     private readonly IBrandService _brandService; // Field
 
-    public BrandsController()
+    public BrandsController(IBrandService brandService)
     {
         // Her HTTP Request için yeni bir Controller nesnesi oluşturulur.
         _brandService = ServiceRegistration.BrandService;
@@ -41,12 +42,27 @@ public class BrandsController : ControllerBase
     [HttpPost] // POST http://localhost:5245/api/brands
     public ActionResult<AddBrandResponse> Add(AddBrandRequest request)
     {
-        AddBrandResponse response = _brandService.Add(request);
+        try
+        {
+            AddBrandResponse response = _brandService.Add(request);
 
-        //return response; // 200 OK
-        return CreatedAtAction(nameof(GetList), response); // 201 Created
-    }
-    [HttpDelete]
+            //return response; // 200 OK
+            return CreatedAtAction(nameof(GetList), response); // 201 Created
+        }
+        catch (Core.CrossCuttingConcerns.Exceptions.BusinessException exception)
+        {
+            return BadRequest(
+                new Core.CrossCuttingConcerns.Exceptions.BusinessProblemDetails()
+                {
+                    Title = "Business Exception",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = exception.Message,
+                    Instance = HttpContext.Request.Path
+                }
+            );
+            // 400 Bad Request
+        }
+        [HttpDelete]
     public ActionResult Delete(int id)
     {
      
