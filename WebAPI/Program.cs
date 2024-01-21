@@ -4,6 +4,7 @@ using Core.CrossCuttingConcerns.Exceptions;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services.AddBusinessServices();
 
 builder.Services.AddControllers();
@@ -14,7 +15,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseGlobalExceptionHandling();
+//app.UseGlobalExceptionHandling();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

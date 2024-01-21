@@ -16,5 +16,11 @@ public class Model : Entity<int>
 
     public Fuel? Fuel { get; set; } = null;
 
+    public Transmission Transmission { get; set; }
+    public int TransmissionID { get; set; }
+    public string TransmissionName { get; set; }
+    public decimal DailyPrice { get; set; }
+
+
 }
 

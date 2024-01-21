@@ -62,9 +62,13 @@ public class BrandManager : IBrandService
         // brandList.Items diye bir alan yok, bu yüzden mapping konfigurasyonu yapmamız gerekiyor.
 
         // Brand -> BrandListItemDto
-        // IList<Brand> -> GetBrandListResponse
+         //IList<Brand> newbrand = GetBrandListResponse()
+        return brandList;
+    
+    }
 
-        GetBrandListResponse response = _mapper.Map<GetBrandListResponse>(brandList); // Mapping
-        return response;
+    public GetBrandListResponse GetList(GetBrandListRequest request)
+    {
+        throw new NotImplementedException();
     }
 }

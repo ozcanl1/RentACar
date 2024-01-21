@@ -62,10 +62,12 @@ public class BrandsController : ControllerBase
             );
             // 400 Bad Request
         }
-        [HttpDelete]
+     
+    }
+    [HttpDelete]
     public ActionResult Delete(int id)
     {
-     
+
         _brandService.DeleteBrand(id);
         return Ok();
     }
