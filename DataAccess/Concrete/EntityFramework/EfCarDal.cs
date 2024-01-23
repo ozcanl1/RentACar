@@ -35,6 +35,11 @@ internal class EfCarDal : ICarDal
         throw new NotImplementedException();
     }
 
+    public Car GetList(int id)
+    {
+        throw new NotImplementedException();
+    }
+
     public void Update(Car entity)
     {
         throw new NotImplementedException();

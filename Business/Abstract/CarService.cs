@@ -9,7 +9,7 @@ namespace Business.Abstract;
 
 public interface CarService
 {
-    public AddCarResponse Add(AddCarResponse request);
+    //public AddCarResponse Add(AddCarResponse request);
 
     public GetCarByIdResponse GetById(GetCarByIdRequest request);
 
@@ -18,6 +18,6 @@ public interface CarService
     public UpdateCarResponse Update(UpdateCarRequest request);
 
     public DeleteCarResponse Delete(DeleteCarRequest request);
-    IList<Model> GetList();
-    void DeleteModel(int id);
+    IList<Car> GetList();
+    void DeleteCar(int id);
 }

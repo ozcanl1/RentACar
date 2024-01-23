@@ -2,39 +2,33 @@
 using Business.Abstract;
 using Business.BusinessRules;
 using Business.Requests.Car;
-using Business.Requests.Car;
-using Business.Responses.Car;
+using Business.Responses.Brand;
 using Business.Responses.Car;
 using DataAccess.Abstract;
 using Entities.Concrete;
 
 namespace Business.Concrete;
 
-    public class CarManager : CarService
+public class CarManager : CarService
+{
+    private readonly ICarDal _IcarDal;
+    private readonly IMapper _mapper;
+
+    public CarManager(ICarDal cardDal, IMapper mapper)
     {
-        private readonly ICarDal _IcarDal;
-        private readonly IMapper _mapper;
+        _IcarDal = cardDal;
 
-        public CarManager(ICarDal cardDal, IMapper mapper)
-        {
-            _IcarDal = cardDal; 
+        _mapper = mapper;
+    }
 
-            _mapper = mapper;
-        }
-        public AddCarResponse Add(AddCarRequest request)
-        {
-            Entities.Concrete.Car carAdd = _mapper.Map<Entities.Concrete.Car>(request); 
-
-            _IcarDal.Add(carAdd);
-
-            AddCarResponse response = _mapper.Map<AddCarResponse>(carAdd);
-            return response;
-
-        }
-
-    public AddCarResponse Add(AddCarResponse request)
+    public AddCarResponse Add(AddCarRequest request)
     {
-        throw new NotImplementedException();
+        Car addCar = _mapper.Map<Car>(request); // Mapping
+
+        _IcarDal.Add(addCar);
+
+        AddCarResponse response = _mapper.Map<AddCarResponse>(addCar);
+        return response;
     }
 
     public DeleteCarResponse Delete(DeleteCarRequest request)
@@ -42,9 +36,15 @@ namespace Business.Concrete;
         throw new NotImplementedException();
     }
 
-    public void DeleteModel(int id)
+    public void DeleteCar(int id)
     {
         throw new NotImplementedException();
+    }
+
+    public void DeleteModel(int id)
+    {
+        var result = _IcarDal.GetList(id);
+        _IcarDal.Delete(result);
     }
 
     public GetCarByIdResponse GetById(GetCarByIdRequest request)
@@ -52,18 +52,13 @@ namespace Business.Concrete;
         throw new NotImplementedException();
     }
 
-    public IList<Entities.Concrete.Car> GetList()
-        {
-            IList<Entities.Concrete.Car> Cars = _IcarDal.GetList();
-            return Cars;
-        }
-
-    public UpdateCarResponse Update(UpdateCarRequest request)
+    public IList<Car> GetList()
     {
-        throw new NotImplementedException();
+        var carResponse=_IcarDal.GetList();
+        return carResponse;
     }
 
-    IList<Model> CarService.GetList()
+    public UpdateCarResponse Update(UpdateCarRequest request)
     {
         throw new NotImplementedException();
     }

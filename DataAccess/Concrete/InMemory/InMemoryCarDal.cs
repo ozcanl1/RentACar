@@ -6,6 +6,11 @@ namespace DataAccess.Concrete.InMemory
 {
     public class InMemoryCarDal : InMemoryEntityRepositoryBase<Car, int>, ICarDal
     {
+        public Car GetList(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override int generateId()
         {
             int nextId = Entities.Count == 0

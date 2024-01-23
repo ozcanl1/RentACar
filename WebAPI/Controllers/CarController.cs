@@ -37,6 +37,12 @@ namespace WebAPI.Controllers
             return CreatedAtAction(nameof(GetList), response); // 2
 
         }
+        [HttpDelete]
+        public ActionResult<AddCarResponse> Delete(int id)
+        {
+            _carService.DeleteCar(id);
+            return Ok();
+        }
 
     }
 }

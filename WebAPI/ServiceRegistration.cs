@@ -60,7 +60,7 @@ public static class ServiceRegistration
     public static readonly ITransmissionService TransmissionService = new Transmission.Concrete.TransmissionManager(TransmissionDal, Mapper
     );
 
-    public static ModelService ModelService { get; } = new ModelManager(
+    public static ModelService ModelService  = new ModelManager(
      ModelDal,
      Mapper
      );

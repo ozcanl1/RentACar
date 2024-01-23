@@ -4,5 +4,5 @@ using Entities.Concrete;
 namespace DataAccess.Abstract;
 public interface ICarDal : IEntityRepository<Car, int>
 {
-    
+    Car GetList(int id);
 }
