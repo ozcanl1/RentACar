@@ -15,9 +15,9 @@ namespace WebAPI.Controllers;
 [ApiController]
 public class ModelsController : ControllerBase
 {
-    private readonly IModelService _modelService; // Field
+    private readonly ModelService _modelService; // Field
 
-    public ModelsController(IModelService modelService)
+    public ModelsController(ModelService modelService)
     {
         // Her HTTP Request için yeni bir Controller nesnesi oluşturulur.
         _modelService = ServiceRegistration.ModelService;

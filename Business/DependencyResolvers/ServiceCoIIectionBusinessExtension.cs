@@ -16,7 +16,7 @@ public static class ServiceCollectionBusinessExtension
     public static IServiceCollection AddBusinessServices(this IServiceCollection services)
     {
         services
-            .AddSingleton<IBrandService, BrandManager>()
+            .AddSingleton<BrandService, BrandManager>()
             .AddSingleton<IBrandDal, InMemoryBrandDal>()
             .AddSingleton<BrandBusinessRules>(); // Fluent
         // Singleton: Tek bir nesne oluşturur ve herkese onu verir.

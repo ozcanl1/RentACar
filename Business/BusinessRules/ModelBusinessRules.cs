@@ -20,4 +20,9 @@ public class ModelBusinessRules
             throw new Exception("Model already exists.");
         }
     }
+
+    internal void CheckIfModelNameExists(string name)
+    {
+        throw new NotImplementedException();
+    }
 }

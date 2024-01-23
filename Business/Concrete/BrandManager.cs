@@ -8,7 +8,7 @@ using Entities.Concrete;
 
 namespace Business.Concrete;
 
-public class BrandManager : IBrandService
+public class BrandManager : BrandService
 {
     private readonly IBrandDal _brandDal;
     private readonly BrandBusinessRules _brandBusinessRules;
@@ -45,7 +45,7 @@ public class BrandManager : IBrandService
 
     public void DeleteBrand(int id)
     {
-        var result = _brandDal.GetById(id);
+        var result = _brandDal.GetList(id);
         if (result != null)
             _brandDal.Delete(result);
     }
@@ -64,9 +64,9 @@ public class BrandManager : IBrandService
         // Brand -> BrandListItemDto
          //IList<Brand> newbrand = GetBrandListResponse()
         return brandList;
-    
-    }
+      
 
+    }
     public GetBrandListResponse GetList(GetBrandListRequest request)
     {
         throw new NotImplementedException();

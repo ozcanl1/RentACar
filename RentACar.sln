@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Busine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{305491C8-D8D5-4F23-A912-2C0C6716E58F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuel And Transmission", "Odev2\Fuel And Transmission.csproj", "{29C1CB36-9D0E-45B7-B5CD-0367FE5FB3F1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{305491C8-D8D5-4F23-A912-2C0C6716E58F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{305491C8-D8D5-4F23-A912-2C0C6716E58F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{305491C8-D8D5-4F23-A912-2C0C6716E58F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29C1CB36-9D0E-45B7-B5CD-0367FE5FB3F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29C1CB36-9D0E-45B7-B5CD-0367FE5FB3F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29C1CB36-9D0E-45B7-B5CD-0367FE5FB3F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29C1CB36-9D0E-45B7-B5CD-0367FE5FB3F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

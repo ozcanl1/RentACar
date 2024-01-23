@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Business.Dtos.Model;
 using Business.Requests.Model;
 using Business.Responses.Model;
 using Entities.Concrete;

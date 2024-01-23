@@ -4,7 +4,7 @@ using Entities.Concrete;
 
 namespace Business.Abstract;
 
-public interface IBrandService
+public interface BrandService
 {
     public AddBrandResponse Add(AddBrandRequest request);
 

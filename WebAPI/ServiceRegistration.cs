@@ -13,6 +13,8 @@ using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using Fuel.Requests;
 using Fuel.Responses;
+using Business.Requests;
+using Business.Responses;
 
 namespace WebAPI;
 
@@ -45,7 +47,7 @@ public static class ServiceRegistration
 
     }).CreateMapper();
 
-    public static readonly IBrandService BrandService = new BrandManager(
+    public static readonly BrandService BrandService = new BrandManager(
         BrandDal,
         BrandBusinessRules,
         Mapper
@@ -58,12 +60,12 @@ public static class ServiceRegistration
     public static readonly ITransmissionService TransmissionService = new Transmission.Concrete.TransmissionManager(TransmissionDal, Mapper
     );
 
-    public static IModelService ModelService { get; } = new ModelManager(
+    public static ModelService ModelService { get; } = new ModelManager(
      ModelDal,
      Mapper
      );
 
-    public static readonly ICarService CarService = new CarManager(
+    public static readonly CarService CarService = new CarManager(
             CarDal,
             Mapper
       );

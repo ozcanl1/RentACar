@@ -16,7 +16,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CarController : ControllerBase
     {
-        private readonly ICarService _carService; // Field
+        private readonly CarService _carService; // Field
         public CarController()
         {
             _carService = ServiceRegistration.CarService;
@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         [HttpGet] // GET http://localhost:5245/api/brands
         public ICollection<Entities.Concrete.Car> GetList()
         {
-            IList<Entities.Concrete.Car> carlist = _carService.GetList();
+            IList<Entities.Concrete.Car> carlist = (IList<Car>)_carService.GetList();
             return carlist; // JSON
         }
         [HttpPost]

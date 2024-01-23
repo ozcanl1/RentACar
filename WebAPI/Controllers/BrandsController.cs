@@ -15,9 +15,9 @@ namespace WebAPI.Controllers;
 [ApiController]
 public class BrandsController : ControllerBase
 {
-    private readonly IBrandService _brandService; // Field
+    private readonly BrandService _brandService; // Field
 
-    public BrandsController(IBrandService brandService)
+    public BrandsController(BrandService brandService)
     {
         // Her HTTP Request için yeni bir Controller nesnesi oluşturulur.
         _brandService = ServiceRegistration.BrandService;
