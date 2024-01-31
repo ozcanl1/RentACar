@@ -2,21 +2,31 @@
 using Business.Requests.Model;
 using Business.Responses.Model;
 using Entities.Concrete;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Business.Profiles.Mapping.AutoMapper;
-
-public class ModelMapperProfiles : Profile
+namespace Business.Profiles.Mapping.AutoMapper
 {
-    public ModelMapperProfiles()
+    public class ModelMapperProfile : Profile
     {
-        CreateMap<AddModelRequest, Model>();
-        CreateMap<Model, AddModelResponse>();
+        public ModelMapperProfile()
+        {
+            CreateMap<AddModelRequest, Model>();
+            CreateMap<Model, AddModelResponse>();
 
-        CreateMap<Model, ModelListItemDto>();
-        CreateMap<IList<Model>, GetModelListResponse>()
-            .ForMember(
-                destinationMember: dest => dest.Items,
-                memberOptions: opt => opt.MapFrom(mapExpression: src => src)
-            );
+            CreateMap<Model, ModelListItemDto>();
+            CreateMap<IList<Model>, GetModelListResponse>()
+                .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src));
+
+            CreateMap<Model, DeleteModelResponse>();
+
+            CreateMap<Model, GetModelByIdResponse>();
+
+            CreateMap<UpdateModelRequest, Model>();
+            CreateMap<Model, UpdateModelResponse>();
+        }
     }
 }

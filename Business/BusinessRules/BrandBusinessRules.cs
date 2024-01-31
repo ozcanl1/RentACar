@@ -1,4 +1,5 @@
-﻿using DataAccess.Abstract;
+﻿using Core.CrossCuttingConcerns.Exceptions;
+using DataAccess.Abstract;
 
 namespace Business.BusinessRules;
 

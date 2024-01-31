@@ -7,7 +7,7 @@ using Entities.Concrete;
 
 namespace Business.Abstract;
 
-public interface CarService
+public interface ICarService
 {
     //public AddCarResponse Add(AddCarResponse request);
 

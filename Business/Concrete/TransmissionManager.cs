@@ -1,4 +1,8 @@
 ﻿using AutoMapper;
+using Business.Abstract;
+using Business.BusinessRules;
+using Business.Requests.Fuel;
+using Business.Requests.Transmission;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Fuel.Requests;
@@ -9,35 +13,40 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Transmission.Concrete
+namespace Business.Concrete
 {
     public class TransmissionManager : ITransmissionService
     {
-        private readonly ITransmissionDal _ItransmissionDal;
+        private readonly ITransmissionDal _transmissionDal;
+        private readonly TransmissionBusinessRules _transmissionBusinessRules;
         private readonly IMapper _mapper;
 
-        public TransmissionManager(ITransmissionDal transmissiondDal, IMapper mapper)
+        public TransmissionManager(ITransmissionDal transmissionDal, TransmissionBusinessRules transmissionBusinessRules, IMapper mapper)
         {
-            _ItransmissionDal = transmissiondDal; //new InMemoryBrandDal(); // Başka katmanların class'ları new'lenmez. Bu yüzden dependency injection kullanıyoruz.
-
+            _transmissionDal = transmissionDal;
+            _transmissionBusinessRules = transmissionBusinessRules;
             _mapper = mapper;
         }
+
         public AddTransmissionResponse Add(AddTransmissionRequest request)
         {
-            Entities.Concrete.Transmission transmissionAdd = _mapper.Map<Entities.Concrete.Transmission>(request); // Mapping
+            _transmissionBusinessRules.CheckIfTransmissionNameNotExists(request.Name);
+            Transmission transmissionToAdd = _mapper.Map<Transmission>(request);
+            _transmissionDal.Add(transmissionToAdd);
 
-            _ItransmissionDal.Add(transmissionAdd);
-
-            AddTransmissionResponse response = _mapper.Map<AddTransmissionResponse>(transmissionAdd);
+            AddTransmissionResponse response = _mapper.Map<AddTransmissionResponse>(transmissionToAdd);
             return response;
-
         }
 
-        public IList<Entities.Concrete.Transmission> GetList()
+        public IList<Transmission> GetList()
         {
-            IList<Entities.Concrete.Transmission> transmissions = _ItransmissionDal.GetList();
-            return transmissions;
+            IList<Transmission> transmissionList = _transmissionDal.GetList();
+            return transmissionList;
+        }
+
+        public IList<Transmission> GetTransmissions()
+        {
+            throw new NotImplementedException();
         }
     }
-
 }

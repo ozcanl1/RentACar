@@ -8,7 +8,7 @@ using Entities.Concrete;
 
 namespace Business.Concrete;
 
-public class BrandManager : BrandService
+public class BrandManager : IBrandService
 {
     private readonly IBrandDal _brandDal;
     private readonly BrandBusinessRules _brandBusinessRules;

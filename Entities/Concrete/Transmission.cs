@@ -1,19 +1,26 @@
 ﻿using Core.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace Entities.Concrete
 {
     public class Transmission : Entity<int>
     {
-        public int Id { get; set; }
+
         public string Name { get; set; }
+
         public Transmission()
         {
 
         }
-        public Transmission(string name, int id)
+        public Transmission(string name)
         {
-            Id = id;
-            Name = name;
 
+            Name = name;
         }
+
     }
 }

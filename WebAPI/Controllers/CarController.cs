@@ -16,7 +16,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CarController : ControllerBase
     {
-        private readonly CarService _carService; // Field
+        private readonly ICarService _carService; // Field
         public CarController()
         {
             _carService = ServiceRegistration.CarService;

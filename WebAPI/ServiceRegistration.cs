@@ -47,7 +47,7 @@ public static class ServiceRegistration
 
     }).CreateMapper();
 
-    public static readonly BrandService BrandService = new BrandManager(
+    public static readonly IBrandService BrandService = new BrandManager(
         BrandDal,
         BrandBusinessRules,
         Mapper
@@ -60,12 +60,12 @@ public static class ServiceRegistration
     public static readonly ITransmissionService TransmissionService = new Transmission.Concrete.TransmissionManager(TransmissionDal, Mapper
     );
 
-    public static ModelService ModelService  = new ModelManager(
+    public static Business.Abstract.IModelService ModelService  = new ModelManager(
      ModelDal,
      Mapper
      );
 
-    public static readonly CarService CarService = new CarManager(
+    public static readonly ICarService CarService = new CarManager(
             CarDal,
             Mapper
       );
