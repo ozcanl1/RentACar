@@ -1,23 +1,22 @@
-﻿using Business.Requests.Brand;
-using Business.Requests.Car;
-using Business.Responses.Brand;
+﻿using Business.Requests.Car;
 using Business.Responses.Car;
-using Business.Responses.Model;
-using Entities.Concrete;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Business.Abstract;
-
-public interface ICarService
+namespace Business.Abstract
 {
-    //public AddCarResponse Add(AddCarResponse request);
+    public interface ICarService
 
-    public GetCarByIdResponse GetById(GetCarByIdRequest request);
+    {
+        public AddCarResponse Add(AddCarRequest request);
 
-    public AddCarResponse Add(AddCarRequest request);
+        public GetCarListResponse GetList(GetCarListRequest request);
+        public GetCarByIdResponse GetById(GetCarByIdRequest request);
 
-    public UpdateCarResponse Update(UpdateCarRequest request);
-
-    public DeleteCarResponse Delete(DeleteCarRequest request);
-    IList<Car> GetList();
-    void DeleteCar(int id);
+        public UpdateCarResponse Update(UpdateCarRequest request);
+        public DeleteCarResponse Delete(DeleteCarRequest request);
+    }
 }

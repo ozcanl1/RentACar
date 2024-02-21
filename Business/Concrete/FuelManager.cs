@@ -1,43 +1,66 @@
 ﻿using AutoMapper;
+using Business.Abstract;
+using Business.BusinessRules;
+using Business.Requests.Brand;
+using Business.Requests.Fuel;
+using Business.Responses.Fuel;
+using Business.Responses.FuelResponse;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using Fuel.Requests;
-using Fuel.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fuel.Concrete
+namespace Business.Concrete
 {
     public class FuelManager : IFuelService
     {
-        private readonly IFuelDal _IfuelDal;
+        private readonly IFuelDal _fuelDal;
+        private readonly FuelBusinessRules _fuelBusinessRules;
         private readonly IMapper _mapper;
 
-        public FuelManager(IFuelDal fueldDal, IMapper mapper)
+        public FuelManager(IFuelDal fuelDal, FuelBusinessRules fuelBusinessRules, IMapper mapper)
         {
-            _IfuelDal = fueldDal; //new InMemoryBrandDal(); // Başka katmanların class'ları new'lenmez. Bu yüzden dependency injection kullanıyoruz.
-        
+            _fuelDal = fuelDal;
+            _fuelBusinessRules = fuelBusinessRules;
             _mapper = mapper;
         }
+
         public AddFuelResponse Add(AddFuelRequest request)
         {
-         Entities.Concrete.Fuel fuelAdd = _mapper.Map<Entities.Concrete.Fuel>(request); // Mapping
+            _fuelBusinessRules.CheckIfFuelNameNotExist(request.Name);
 
-            _IfuelDal.Add(fuelAdd);
+            Fuel fuelToAdd = _mapper.Map<Fuel>(request);
+            _fuelDal.Add(fuelToAdd);
 
-            AddFuelResponse response = _mapper.Map<AddFuelResponse>(fuelAdd);
+            AddFuelResponse response = _mapper.Map<AddFuelResponse>(fuelToAdd);
             return response;
-      
         }
 
-        public IList<Entities.Concrete.Fuel> GetList()
+        public DeleteFuelResponse Delete(DeleteFuelRequest request)
         {
-          IList<Entities.Concrete.Fuel> fuels=_IfuelDal.GetList();
-            return fuels;
+            throw new NotImplementedException();
+        }
+
+        public GetFuelByIdResponse GetById(GetFuelByIdRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public GetFuelListResponse GetList(GetFuelListRequest request)
+        {
+            IList<Fuel> fuelList = _fuelDal.GetList();
+            GetFuelListResponse response = _mapper.Map<GetFuelListResponse>(fuelList);
+            return response;
+            //IList<Fuel> fuelList = _fuelDal.GetList();
+            //return fuelList;
+        }
+
+        public UpdateFuelResponse Update(UpdateFuelRequest request)
+        {
+            throw new NotImplementedException();
         }
     }
-
 }

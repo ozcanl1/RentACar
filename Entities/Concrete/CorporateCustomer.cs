@@ -9,10 +9,12 @@ namespace Entities.Concrete
 {
     public class CorporateCustomer : Entity<int>
     {
-        public CorporateCustomer() { }
+
+        public int CustomerId { get; set; }
         public string CompanyName { get; set; }
-        public int TaxNo { get; set; }
-        public Customer? Customer { get; set; } = null;
+        public short TaxNo { get; set; }
+
         public User? User { get; set; } = null;
+        public Customer? Customer { get; set; } = null;
     }
 }

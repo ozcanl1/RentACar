@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Requests.Users
+namespace Business.Requests.Brand
 {
-    public class DeleteUsersRequest
+    public class UpdateBrandRequest
     {
         public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

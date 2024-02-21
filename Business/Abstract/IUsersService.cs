@@ -1,14 +1,20 @@
-﻿using Business.Requests.Users;
-using Business.Responses.Users;
-
+﻿using Azure.Core;
+using Business.Requests.User;
+using Core.Utilities.Security.JWT;
+using DataAccess.Abstract;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
-    public interface IUsersService
+    public interface IUserService
     {
-        public GetUsersListResponse GetList(GetUsersListRequest request);
-        public AddUsersResponse Add(AddUsersRequest request);
-        public UpdateUserResponse Update(UpdateUsersRequest request);
-        public DeleteUsersResponse Delete(DeleteUsersRequest request);
+        void Register(RegisterRequest request);
+
+     AccessToken Login(LoginRequest request); //TODO: return type: JWT 
+
     }
 }

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Concrete
+namespace Business.Requests.Fuel
 {
-    public class CorporateCustomer
+    public class UpdateFuelRequest
     {
+        public string Name { get; set; }
     }
 }

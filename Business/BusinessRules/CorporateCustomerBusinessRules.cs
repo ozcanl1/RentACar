@@ -1,8 +1,9 @@
-﻿using Core.CrossCuttingConcerns.Exceptions;
-using DataAccess.Abstract;
-using DataAccess.Concrete.EntityFramework;
-using Entities.Concrete;
-
+﻿using DataAccess.Abstract;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Business.BusinessRules
 {
@@ -13,19 +14,6 @@ namespace Business.BusinessRules
         public CorporateCustomerBusinessRules(ICorporateCustomerDal corporateCustomerDal)
         {
             _corporateCustomerDal = corporateCustomerDal;
-
-        }
-        public void CheckIfCorporateCustomerNameExists(string companyName)
-        {
-            bool isNameExists = _corporateCustomerDal.Get(c => c.CompanyName == companyName) != null;
-            if (isNameExists)
-                throw new BusinessException(" Corporate Customer  already exists.");
-        }
-
-        public void CheckIfCorporateCustomerExists(CorporateCustomer customer)
-        {
-            if (customer is null)
-                throw new NotFoundException("Corporate Customer not found.");
         }
     }
 }

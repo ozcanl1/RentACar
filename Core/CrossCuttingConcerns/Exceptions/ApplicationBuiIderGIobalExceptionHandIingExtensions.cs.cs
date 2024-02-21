@@ -1,11 +1,18 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Core.CrossCuttingConcerns.Exceptions;
-
-public static class ApplicationBuilderGlobalExceptionHandlingExtensions
+namespace Core.CrossCuttingConcerns.Exceptions
 {
-    public static IApplicationBuilder UseGlobalExceptionHandling(this IApplicationBuilder app)
+    public static class ApplicationBuilderGlobalExceptionHandlingExtensions
     {
-        return app.UseMiddleware<ExceptionMiddleware>();
+        public static IApplicationBuilder UseGLobalExceptionHandling(this IApplicationBuilder app)
+        {
+            return app.UseMiddleware<ExceptionMiddleware>();
+        }
+
     }
 }

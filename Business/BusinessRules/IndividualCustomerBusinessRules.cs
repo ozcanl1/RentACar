@@ -9,6 +9,7 @@ namespace Business.BusinessRules
 {
     public class IndividualCustomerBusinessRules
     {
+
         private readonly IIndividualCustomerDal _individualCustomerDal;
 
         public IndividualCustomerBusinessRules(IIndividualCustomerDal individualCustomerDal)

@@ -1,8 +1,16 @@
-﻿namespace Business;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class GetModelListRequest
+namespace Business.Requests.Model
 {
-    public int? FilterByBrandId { get; set; }
-    public int? FilterByFuelId { get; set; }
-    public int? FilterByTransmissionId { get; set; }
+    public class GetModelListRequest
+    {
+        //filtreleme
+        public int? FilterByBrandId { get; set; }
+        public int? FilterByFuelId { get; set; }
+        public int? FilterByTransmissionId { get; set; }
+    }
 }

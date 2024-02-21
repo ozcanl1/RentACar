@@ -9,9 +9,9 @@ namespace Business.Requests.CorporateCustomer
     public class UpdateCorporateCustomerRequest
     {
         public int Id { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+
+        public int CustomerId { get; set; }
         public string CompanyName { get; set; }
-        public string TaxNo { get; set; }
+        public short TaxNo { get; set; }
     }
 }

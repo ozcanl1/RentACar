@@ -1,9 +1,7 @@
 ﻿using Business.Abstract;
-using Business.Requests.Brand;
-using Business.Responses.Brand;
+using Business.Requests.Fuel;
+using Business.Responses.Fuel;
 using Entities.Concrete;
-using Fuel.Requests;
-using Fuel.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,29 +9,37 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FuelController : ControllerBase
+    public class FuelsController : ControllerBase
     {
-        private readonly IFuelService _fuelService; // Field
-        public FuelController()
+        private readonly IFuelService _fuelService;
+
+        public FuelsController(IFuelService fuelService)
         {
-            _fuelService = ServiceRegistration.FuelService;
+            _fuelService = fuelService;
+            //_fuelService = ServiceRegistration.FuelService;
         }
 
-        [HttpGet] // GET http://localhost:5245/api/brands
-        public ICollection<Entities.Concrete.Fuel> GetList()
+        //[HttpGet]
+        //public ICollection<Fuel>GetList()
+        //{
+        //    //IList<Fuel> fuelList = _fuelService.GetList();
+        //    //return fuelList;
+        //}
+
+        [HttpGet]
+
+        public GetFuelListResponse GetList([FromQuery] GetFuelListRequest request)
         {
-            IList<Entities.Concrete.Fuel> fuellist = _fuelService.GetList();
-            return fuellist; // JSON
+            GetFuelListResponse response = _fuelService.GetList(request);
+            return response;
         }
-        [HttpPost] 
+
+        [HttpPost]
         public ActionResult<AddFuelResponse> Add(AddFuelRequest request)
         {
+
             AddFuelResponse response = _fuelService.Add(request);
-
-            //return response; // 200 OK
-            return CreatedAtAction(nameof(GetList), response); // 2
-         
+            return CreatedAtAction(nameof(GetList), response);
         }
-
     }
 }

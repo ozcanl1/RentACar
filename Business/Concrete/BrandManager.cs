@@ -2,73 +2,82 @@
 using Business.Abstract;
 using Business.BusinessRules;
 using Business.Requests.Brand;
+using Business.Requests.Transmission;
 using Business.Responses.Brand;
+using Business.Responses.Fuel;
+using Business.Responses.Transmission;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
+using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Business.Concrete;
-
-public class BrandManager : IBrandService
+namespace Business.Concrete
 {
-    private readonly IBrandDal _brandDal;
-    private readonly BrandBusinessRules _brandBusinessRules;
-    private readonly IMapper _mapper;
-
-    public BrandManager(IBrandDal brandDal, BrandBusinessRules brandBusinessRules, IMapper mapper)
+    public class BrandManager : IBrandService
     {
-        _brandDal = brandDal; //new InMemoryBrandDal(); // Başka katmanların class'ları new'lenmez. Bu yüzden dependency injection kullanıyoruz.
-        _brandBusinessRules = brandBusinessRules;
-        _mapper = mapper;
-    }
+        //Bir entity service'i kendi entitysi dışında hiçbir entity'nin DAL'ını enjekte etmemelidir.
+        private readonly IBrandDal _brandDal;
+        private readonly BrandBusinessRules _brandBusinessRules;
+        private readonly IMapper _mapper;
+        public BrandManager(IBrandDal brandDal, BrandBusinessRules brandBusinessRules, IMapper mapper)
+        {    //new InMemoryBrandDal(); //Başka katmanların class'ları new'lenmez. //Bu yüzden dependency injection
 
-    public AddBrandResponse Add(AddBrandRequest request)
-    {
-        // İş Kuralları
-        _brandBusinessRules.CheckIfBrandNameNotExists(request.Name);
+            _brandDal = brandDal;
+            _brandBusinessRules = brandBusinessRules;
+            _mapper = mapper;
 
-        // Validation
-        // Yetki kontrolü
-        // Cache
-        // Transaction
+        }
+        public AddBrandResponse Add(AddBrandRequest request)
+        {
+            _brandBusinessRules.CheckIfBrandNameNotExists(request.Name);
 
-        //Brand brandToAdd = new(request.Name)
-        Brand brandToAdd = _mapper.Map<Brand>(request); // Mapping
-
-        _brandDal.Add(brandToAdd);
-
-        AddBrandResponse response = _mapper.Map<AddBrandResponse>(brandToAdd);
-        return response;
-    }
-
-   
+            Brand brandToAdd = _mapper.Map<Brand>(request);      //Mapping 
+            _brandDal.Add(brandToAdd);
 
 
-    public void DeleteBrand(int id)
-    {
-        var result = _brandDal.GetList(id);
-        if (result != null)
-            _brandDal.Delete(result);
-    }
 
-    public IList<Brand> GetList()
-    {
-        // İş Kuralları
-        // Validation
-        // Yetki kontrolü
-        // Cache
-        // Transaction
+            AddBrandResponse response = _mapper.Map<AddBrandResponse>(brandToAdd);
+            return response;
 
-        IList<Brand> brandList = _brandDal.GetList();
-        // brandList.Items diye bir alan yok, bu yüzden mapping konfigurasyonu yapmamız gerekiyor.
 
-        // Brand -> BrandListItemDto
-         //IList<Brand> newbrand = GetBrandListResponse()
-        return brandList;
-      
+            //Brand addedBrand = _brandDal.Add();
+        }
 
-    }
-    public GetBrandListResponse GetList(GetBrandListRequest request)
-    {
-        throw new NotImplementedException();
+        public DeleteBrandResponse Delete(DeleteBrandRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public GetBrandByIdResponse GetById(GetBrandByIdRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Brand? GetById(int id)
+        {
+            return _brandDal.Get(i => i.Id == id);
+        }
+
+        public GetBrandListResponse GetList(GetBrandListRequest request)
+        {
+            //brandList.Items diye bir alan yok, bu yüzden mapping
+            //Brand => BrandListItemDto
+            // IList<BrandListItemDto> GetBrandListResponse
+
+            IList<Brand> brandList = _brandDal.GetList();
+            GetBrandListResponse response = _mapper.Map<GetBrandListResponse>(brandList);
+            return response;
+        }
+
+        public UpdateBrandResponse Update(UpdateBrandRequest request)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
+

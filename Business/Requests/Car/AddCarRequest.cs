@@ -1,11 +1,34 @@
-﻿namespace Business.Requests.Car;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class AddCarRequest
+namespace Business.Requests.Car
 {
-    public int BrandId { get; set; }
-    public int FuelId { get; set; }
-    public int TransmissionId { get; set; }
-    public string Name { get; set; }
-    public short Year { get; set; }
-    public decimal DailyPrice { get; set; }
+    public class AddCarRequest
+    {
+        public AddCarRequest(int colorId, int modelId, string carState, string kilometer, short modelYear, string plate)
+        {
+            ColorId = colorId;
+            ModelId = modelId;
+            CarState = carState;
+            Kilometer = kilometer;
+            ModelYear = modelYear;
+            Plate = plate;
+        }
+
+        public int ColorId { get; set; }
+
+        public int ModelId { get; set; }
+
+        public string CarState { get; set; }
+
+        public string Kilometer { get; set; }
+
+        public short ModelYear { get; set; }
+        public string Plate { get; set; }
+
+
+    }
 }

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Requests.Users
+namespace Business.Dtos.Tranmission
 {
-    public class GetUsersListRequest
+    public class TranmissionListItemDto
     {
-
     }
 }

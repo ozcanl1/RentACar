@@ -1,49 +1,50 @@
-﻿using Business.Abstract;
+﻿using Business;
+using Business.Abstract;
+using Business.Requests.Transmission;
+using Business.Responses.Transmission;
+using Entities.Concrete;
 using Fuel.Requests;
 using Fuel.Responses;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TransmissionController : ControllerBase
+    public class TransmissionsController : ControllerBase
     {
+
         private readonly ITransmissionService _transmissionService;
 
-        public TransmissionController()
+        public TransmissionsController()
         {
-            _transmissionService = ServiceRegistration.TransmissionService;
+            // _transmissionService = ServiceRegistration.TransmissionService;
         }
+
+
+        //[HttpGet]
+        //public ICollection<Transmission> GetList()
+        //{
+        //    IList<Transmission> transmissionList = _transmissionService.GetList();
+        //    return transmissionList;
+        //}
 
         [HttpGet]
-        public ActionResult<IEnumerable<Entities.Concrete.Transmission>> GetList()
+        public GetTransmissionListResponse GetList([FromQuery] GetTransmissionListRequest request)
         {
-            try
-            {
-                IEnumerable<Entities.Concrete.Transmission> transmissionList = _transmissionService.GetList();
-                return Ok(transmissionList);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal Server Error: {ex.Message}");
-            }
+            GetTransmissionListResponse response = _transmissionService.GetList(request);
+            return response;
         }
 
+
+
         [HttpPost]
-        public ActionResult<AddTransmissionResponse> Add([FromBody] AddTransmissionRequest request)
+
+        public ActionResult<AddTransmissionResponse> Add(AddTransmissionRequest request)
         {
-            try
-            {
-                AddTransmissionResponse response = _transmissionService.Add(request);
-                return CreatedAtAction(nameof(GetList), response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal Server Error: {ex.Message}");
-            }
+            AddTransmissionResponse response = _transmissionService.Add(request);
+            return CreatedAtAction(nameof(GetList), response);
         }
     }
 }

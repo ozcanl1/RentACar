@@ -1,5 +1,7 @@
-﻿using DataAccess.Abstract;
-using Entities.Concrete;
+﻿using Core.DataAccess.EntityFramework;
+using Core.Entities;
+using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,31 +10,10 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfUserDal : IUserDal
+    public class EfUserDal : EfEntityRepositoryBase<User, int, RentACarContext>, IUserDal
     {
-        public User Add(User entity)
+        public EfUserDal(RentACarContext context) : base(context)
         {
-            throw new NotImplementedException();
-        }
-
-        public User Delete(User entity, bool isSoftDelete = true)
-        {
-            throw new NotImplementedException();
-        }
-
-        public User? Get(Func<User, bool> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IList<User> GetList(Func<User, bool>? predicate = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public User Update(User entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

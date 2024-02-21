@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace Business.BusinessRules
 {
     public class FuelBusinessRules
+
     {
         private readonly IFuelDal _fuelDal;
 
@@ -27,6 +28,4 @@ namespace Business.BusinessRules
             }
         }
     }
-
 }
-

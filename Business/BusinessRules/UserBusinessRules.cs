@@ -1,6 +1,4 @@
-﻿using Core.CrossCuttingConcerns.Exceptions;
-using DataAccess.Abstract;
-using DataAccess.Concrete.EntityFramework;
+﻿using DataAccess.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +16,4 @@ namespace Business.BusinessRules
             _userDal = userDal;
         }
     }
-
 }

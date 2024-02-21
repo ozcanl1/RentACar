@@ -1,11 +1,18 @@
-﻿namespace Business.Requests.Brand;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class AddBrandRequest
-{ // Dto
-    public string Name { get; set; }
-
-    public AddBrandRequest(string name)
+namespace Business.Requests.Brand
+{
+    public class AddBrandRequest
     {
-        Name = name;
+        //DTO
+        public string Name { get; set; }
+        public AddBrandRequest(string name)
+        {
+            Name = name;
+        }
     }
 }

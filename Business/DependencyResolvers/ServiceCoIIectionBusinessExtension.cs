@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Business.Abstract;
+﻿using Business.Abstract;
 using Business.BusinessRules;
 using Business.Concrete;
 using DataAccess.Abstract;
@@ -9,39 +8,52 @@ using DataAccess.Concrete.InMemory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
-namespace Business.DependencyResolvers;
-
-public static class ServiceCollectionBusinessExtension
+namespace Business.DependencyResolvers
 {
-    // Extension method
-    // Metodun ve barındığı class'ın static olması gerekiyor
-    // İlk parametere genişleteceğimiz tip olmalı ve başında this keyword'ü olmalı.
-    public static IServiceCollection AddBusinessServices(
-        this IServiceCollection services,
-        IConfiguration configuration
-    )
+    public static class ServiceCollectionBusinessExtension
     {
-        services
-            .AddSingleton<IBrandService, BrandManager>()
-            .AddSingleton<IBrandDal, InMemoryBrandDal>()
-            .AddSingleton<BrandBusinessRules>();
-        // Fluent
-        // Singleton: Tek bir nesne oluşturur ve herkese onu verir.
-        // Ek ödev diğer yöntemleri araştırınız.
+        public static IServiceCollection AddBusinessServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSingleton<IBrandService, BrandManager>()
+                    .AddSingleton<IBrandDal, InMemoryBrandDal>()
+                    .AddSingleton<BrandBusinessRules>()
 
-        services
-            .AddScoped<IModelService, ModelManager>()
-            .AddScoped<IModelDal, EfModelDal>()
-            .AddScoped<ModelBusinessRules>(); // Fluent
+                    .AddScoped<IModelService, ModelManager>()
+                    .AddScoped<IModelDal, EfModelDal>()
+                    .AddScoped<ModelBusinessRules>()
 
-        services.AddAutoMapper(Assembly.GetExecutingAssembly()); // AutoMapper.Extensions.Microsoft.DependencyInjection NuGet Paketi
-        // Reflection yöntemiyle Profile class'ını kalıtım alan tüm class'ları bulur ve AutoMapper'a ekler.
+                    .AddSingleton<IFuelService, FuelManager>()
+                    .AddSingleton<IFuelDal, InMemoryFuelDal>()
+                    .AddSingleton<FuelBusinessRules>()
 
-        services.AddDbContext<RentACarContext>( // Scoped 
-            options => options.UseSqlServer(configuration.GetConnectionString("RentACarMSSQL22"))
-        );
+                    .AddSingleton<ITransmissionService, TransmissionManager>()
+                    .AddSingleton<ITransmissionDal, InMemoryTransmissionDal>()
+                    .AddSingleton<TransmissionBusinessRules>()
 
-        return services;
+                    .AddSingleton<ICarService, CarManager>()
+                    .AddSingleton<ICarDal, InMemoryCarDal>()
+                    .AddSingleton<CarBusinessRules>()
+
+                    .AddScoped<IIndividualCustomerService, IndividualCustomerManager>()
+                    .AddScoped<IIndividualCustomerDal, EfIndividualCustomerDal>()
+                    .AddScoped<IndividualCustomerBusinessRules>()
+
+                    .AddScoped<IUserService, UserManager>()
+                    .AddScoped<IUserDal, EfUserDal>()
+                    .AddScoped<UserBusinessRules>()
+
+                    .AddScoped<ICustomerService, CustomerManager>()
+                    .AddScoped<ICustomerDal, EfCustomerDal>()
+                    .AddScoped<CustomerBusinessRules>()
+
+                    .AddAutoMapper(Assembly.GetExecutingAssembly())
+                    .AddDbContext<RentACarContext>(options => options.UseSqlServer(configuration.GetConnectionString("RentACarMSSQL22")));
+
+
+
+            return services;
+        }
     }
 }

@@ -1,8 +1,26 @@
-﻿namespace Core.CrossCuttingConcerns.Exceptions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class BusinessException : Exception // is-a relationship
+
+namespace Core.CrossCuttingConcerns.Exceptions
 {
-    public BusinessException(string message) : base(message)
+    public class BusinessException : Exception
+    //is a relationship
     {
+
+        public BusinessException(string message) : base(message)
+        {
+
+        }
+
+
+        //Kendim de yapabilirim; ekstra bir mekanizma ekleyeceksem;
+        //public string _message; 
+        //public override string Message =>_message;
+        //public BusinessException(string message) : base(message)
+        //{_message = message;}
     }
 }

@@ -3,6 +3,7 @@ using Business.Abstract;
 using Business.BusinessRules;
 using Business.Requests.Fuel;
 using Business.Requests.Transmission;
+using Business.Responses.Transmission;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Fuel.Requests;
@@ -38,13 +39,25 @@ namespace Business.Concrete
             return response;
         }
 
-        public IList<Transmission> GetList()
+        public DeleteTransmissionResponse Delete(DeleteTransmissionRequest request)
         {
-            IList<Transmission> transmissionList = _transmissionDal.GetList();
-            return transmissionList;
+            throw new NotImplementedException();
         }
 
-        public IList<Transmission> GetTransmissions()
+        public GetTransmissionByIdResponse GetById(GetTransmissionByIdRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public GetTransmissionListResponse GetList(GetTransmissionListRequest request)
+        {
+            IList<Transmission> transmissionList = _transmissionDal.GetList();
+            GetTransmissionListResponse response = _mapper.Map<GetTransmissionListResponse>(transmissionList);
+            return response;
+            // return transmissionList;
+        }
+
+        public UpdateTransmissionResponse Update(UpdateTransmissionRequest request)
         {
             throw new NotImplementedException();
         }

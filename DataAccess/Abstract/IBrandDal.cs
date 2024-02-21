@@ -16,5 +16,4 @@ public interface IBrandDal : IEntityRepository<Brand, int>
     //
 
     //public IList<Brand> GetBrandsByNameSearch(string nameSearch);
-    Brand GetList(int id);
 }

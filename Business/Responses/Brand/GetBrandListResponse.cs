@@ -1,18 +1,20 @@
 ﻿using Business.Dtos.Brand;
+using Entities.Concrete;
 
-namespace Business;
-
-public class GetBrandListResponse
+namespace Business
 {
-    public ICollection<BrandListItemDto> Items { get; set; }
-
-    public GetBrandListResponse()
+    public class GetBrandListResponse
     {
-        Items = Array.Empty<BrandListItemDto>();
-    }
+        public ICollection<BrandListItemDto> Items { get; set; }
+        public GetBrandListResponse(ICollection<BrandListItemDto> items)
+        {
+            Items = items;
+        }
+        public GetBrandListResponse()
+        {
+            Items = Items;
+        }
 
-    public GetBrandListResponse(ICollection<BrandListItemDto> items)
-    {
-        Items = items;
+
     }
 }
