@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Business.Requests.Car
 {
-    public class GetCarListRequest
+    public class GetCarRequest
     {
         public int? FilterByBrandId { get; set; }
         public int? FilterByFuelId { get; set; }

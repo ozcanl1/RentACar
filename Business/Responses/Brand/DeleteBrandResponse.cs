@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Business.Responses.Brand;
 
-namespace Business.Responses.Brand
+public class DeleteBrandResponse
 {
-    public class DeleteBrandResponse
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public DateTime DeletedAt { get; set; }
+
+    public DeleteBrandResponse(int id, string name, DateTime deletedAt)
     {
-        public DeleteBrandResponse()
-        {
-        }
-
-        public int Id { get; set; }
-        public string Name { get; set; }
-
-        public DateTime DeleteAt { get; set; }
+        Id = id;
+        Name = name;
+        DeletedAt = deletedAt;
     }
 }

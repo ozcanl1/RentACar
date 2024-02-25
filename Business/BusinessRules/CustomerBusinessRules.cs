@@ -1,19 +1,30 @@
-﻿using DataAccess.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Core.CrossCuttingConcerns.Exceptions;
+using DataAccess.Abstract;
+using Entities.Concrete;
 
-namespace Business.BusinessRules
+namespace Business.BusinessRules;
+
+public class CustomerBusinessRules
 {
-    public class CustomerBusinessRules
-    {
-        private readonly ICustomerDal _customerDal;
+    private readonly ICustomerDal _customerDal;
 
-        public CustomerBusinessRules(ICustomerDal customerDal)
+    public CustomerBusinessRules(ICustomerDal customerDal)
+    {
+        _customerDal = customerDal;
+    }
+
+    public void CheckIfUserNoExists(int id)
+    {
+        bool isExists = _customerDal.GetList().Any(a => a.Id == id);
+        if (!isExists)
         {
-            _customerDal = customerDal;
+            throw new BusinessException("This id not found");
         }
+    }
+    public Customer FindId(int id)
+    {
+        Customer customer = _customerDal.GetList().Where(a => a.Id == id).FirstOrDefault();
+        return customer;
     }
 }

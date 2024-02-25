@@ -1,22 +1,15 @@
-﻿
-using Business.Requests.Brand;
+﻿using Business.Requests.Brand;
 using Business.Responses.Brand;
 using Entities.Concrete;
 
-namespace Business.Abstract
+namespace Business.Abstract;
+
+public interface IBrandService
 {
-    public interface IBrandService
-    {
-        public AddBrandResponse Add(AddBrandRequest request);
+    public AddBrandResponse Add(AddBrandRequest request);
+    public DeleteBrandResponse Delete(DeleteBrandRequest request);
+    public UpdateBrandResponse Update(int id, UpdateBrandRequest request);
 
-        public GetBrandListResponse GetList(GetBrandListRequest request);
-
-        public GetBrandByIdResponse GetById(GetBrandByIdRequest request);
-
-        public UpdateBrandResponse Update(UpdateBrandRequest request);
-        public DeleteBrandResponse Delete(DeleteBrandRequest request);
-        Brand? GetById(int id); //TODO: Replace with DTO
-    }
-
+    public GetBrandListResponse GetList(GetBrandListRequest request);
+    Brand? GetById(int id);
 }
-

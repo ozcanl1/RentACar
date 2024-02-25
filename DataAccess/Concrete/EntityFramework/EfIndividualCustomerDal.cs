@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfIndividualCustomer : IIndividualCustomerDal
+    public class EfIndividualCustomerDal : IIndividualCustomerDal
     {
         public IndividualCustomer Add(IndividualCustomer entity)
         {

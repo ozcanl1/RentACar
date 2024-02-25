@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Entities.Concrete;
 
-namespace Business.Requests.ComporateCustomer
+namespace Business.Requests.CorporateCustomer;
+
+public class AddCorporateCustomerRequest
 {
-    public class AddCorporateCustomerRequest
+    public int CustomerId { get; set; }
+    public string CompanyName { get; set; }
+    public string TaxNo { get; set; }
+
+    public AddCorporateCustomerRequest() { }
+    public AddCorporateCustomerRequest(int customerId, string companyName, string taxNo)
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string CompanyName { get; set; }
-        public string TaxNo { get; set; }
+        CustomerId = customerId;
+        CompanyName = companyName;
+        TaxNo = taxNo;
     }
 }

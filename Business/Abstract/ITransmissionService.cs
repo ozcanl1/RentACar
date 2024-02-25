@@ -1,16 +1,16 @@
-﻿
-using Business.Responses.TransmissionResponse;
+﻿using Business.Requests.Transmission;
+using Business.Responses.Transmission;
+using Entities.Concrete;
 using Fuel.Requests;
 using Fuel.Responses;
 
-namespace Business.Abstract
+namespace Business.Abstract;
+
+public interface ITransmissionService
 {
-    public interface ITransmissionService
-    {
-        public AddTransmissionResponse Add(AddTransmissionRequest addTransmissionRequest);
-        public IList<AddTransmissionResponse> GetList();
-        public AddTransmissionResponse GetById(int id);
-        public AddTransmissionResponse Update(int id, AddTransmissionRequest transmissionRequest);
-        public AddTransmissionResponse Delete(int id);
-    }
+    public AddTransmissionResponse Add(AddTransmissionRequest request);
+    public DeleteTransmissionResponse Delete(DeleteTransmissionRequest request);
+    public UpdateTransmissionResponse Update(int id, UpdateTransmissionRequest request);
+
+    public GetTransmissionListResponse GetList(GetTransmissionListRequest request);
 }

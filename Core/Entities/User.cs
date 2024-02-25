@@ -8,20 +8,23 @@ namespace Core.Entities
 {
     public class User : Entity<int>
     {
-        //GENEL USER FIELDLARI
-        public string Email { get; set; }
 
+        public string Email { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
-
         public bool Approved { get; set; }
+        public int? RoleId { get; set; }
+        public ICollection<UserRole> UserRoles { get; set; }
+        public User()
+        {
+        }
 
-        //abc123 => plain text
-        //hashing, SHA512, MD5=>DOKLJBDKSKLB22VKL
-        //Salting => abc123 + SALT => HASH =>
-
-
-
-
+        public User(string email, byte[] passwordHash, byte[] passwordSalt, bool approved)
+        {
+            Email = email;
+            PasswordHash = passwordHash;
+            PasswordSalt = passwordSalt;
+            Approved = approved;
+        }
     }
 }

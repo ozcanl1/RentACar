@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Business.Requests.CorporateCustomer;
 
-namespace Business.Requests.CorporateCustomer
+public class DeleteCorporateCustomerRequest
 {
-    public class DeleteCorporateCustomerRequest
+    public int Id { get; set; }
+
+    public DeleteCorporateCustomerRequest() { }
+
+    public DeleteCorporateCustomerRequest(int id)
     {
-        public int Id { get; set; }
+        Id = id;
     }
 }

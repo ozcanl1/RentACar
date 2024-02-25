@@ -1,50 +1,45 @@
 ﻿using Core.Entities;
 using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
 
-namespace DataAccess.Concrete.EntityFramework.Contexts
+namespace DataAccess.Concrete.EntityFramework.Contexts;
+
+public class RentACarContext : DbContext
 {
-    public class RentACarContext : DbContext
+    public DbSet<Brand> Brands { get; set; }
+    public DbSet<Fuel> Fuels { get; set; }
+    public DbSet<Transmission> Transmissions { get; set; }
+    public DbSet<Car> Cars { get; set; }
+    public DbSet<Model> Models { get; set; }
+    public DbSet<Customer> Customers { get; set; }
+    public DbSet<CorporateCustomer> CorporateCustomer { get; set; }
+    public DbSet<IndividualCustomer> IndividualCustomer { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Roles> Roles { get; set; }
+    public DbSet<UserRole> UserRoles { get; set; }
+
+    public RentACarContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
     {
 
-        public DbSet<Brand> Brands { get; set; }
-
-        public DbSet<Fuel> Fuels { get; set; }
-
-        public DbSet<Transmission> Transmissions { get; set; }
-
-        public DbSet<Model> Models { get; set; }
-
-        public DbSet<Car> Cars { get; set; }
-
-
-        public DbSet<User> Users { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-
-        public DbSet<IndividualCustomer> IndividualCustomers { get; set; }
-
-        public DbSet<CorporateCustomer> CorporateCustomers { get; set; }
-        public RentACarContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
-        {
-
-        }
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    // modelBuilder.Entity<Brand>().HasKey(i=> i.Id); // EF Core Naming Convention BrandId
-        //    modelBuilder.Entity<Brand>(e =>
-        //    {
-        //        e.HasKey(i => i.Id);
-        //        e.Property(i => i.Premium).HasDefaultValue(true);
-        //    });
-        //    base.OnModelCreating(modelBuilder); // Normalde yaptığı işlemleri sürdürür.
-        //} 
-        // Update-Database migrationIsmi
-        // Remove-Migration
-
     }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // İlişkileri tanımlamak için Fluent API kullanılır
+        modelBuilder.Entity<UserRole>()
+            .HasKey(ur => new { ur.UserId, ur.RoleId });
+
+        modelBuilder.Entity<UserRole>()
+            .HasOne(ur => ur.User)
+            .WithMany(u => u.UserRoles)
+            .HasForeignKey(ur => ur.UserId);
+
+        modelBuilder.Entity<UserRole>()
+            .HasOne(ur => ur.Role)
+            .WithMany(r => r.UserRoles)
+            .HasForeignKey(ur => ur.RoleId);
+
+        // Diğer ilişki tanımlamaları buraya eklenir
+    }
+
 }

@@ -1,16 +1,16 @@
-﻿namespace Business.Responses.Model
+﻿namespace Business.Responses.Model;
+
+public class DeleteModelResponse
 {
-    public class DeleteModelResponse
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public DateTime DeletedAt { get; set; }
+
+    public DeleteModelResponse() { }
+    public DeleteModelResponse(int id, string name)
     {
-        public DeleteModelResponse()
-        {
-
-        }
-
-
-        public int Id { get; set; }
-        public string Name { get; set; }
-
-        public DateTime DeleteAt { get; set; }
+        Id = id;
+        Name = name;
     }
+
 }

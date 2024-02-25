@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Business.Requests.Car
 {
+
     public class UpdateCarRequest
     {
         public int ColorId { get; set; }

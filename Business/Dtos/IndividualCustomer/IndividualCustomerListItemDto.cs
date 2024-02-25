@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Business.Dtos.IndividualCustomer;
 
-namespace Business.Dtos.IndividualCustomer
+public class IndividualCustomerListItemDto
 {
-    public class IndividualCustomerListItemDto
+    public int Id { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string NationalIdentity { get; set; }
+
+    public IndividualCustomerListItemDto()
     {
-        public int Id { get; set; }
-        public int CustomerId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string NationalIdentity { get; set; }
+    }
+
+    public IndividualCustomerListItemDto(int ıd, string firstName, string lastName, string nationalIdentity)
+    {
+        Id = ıd;
+        FirstName = firstName;
+        LastName = lastName;
+        NationalIdentity = nationalIdentity;
     }
 }

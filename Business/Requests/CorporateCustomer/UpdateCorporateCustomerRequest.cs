@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Business.Requests.CorporateCustomer;
 
-namespace Business.Requests.CorporateCustomer
+public class UpdateCorporateCustomerRequest
 {
-    public class UpdateCorporateCustomerRequest
-    {
-        public int Id { get; set; }
+    public int CustomerId { get; set; }
+    public string CompanyName { get; set; }
+    public string TaxNo { get; set; }
 
-        public int CustomerId { get; set; }
-        public string CompanyName { get; set; }
-        public short TaxNo { get; set; }
+    public UpdateCorporateCustomerRequest() { }
+
+    public UpdateCorporateCustomerRequest(int customerId, string companyName, string taxNo)
+    {
+        CustomerId = customerId;
+        CompanyName = companyName;
+        TaxNo = taxNo;
     }
 }

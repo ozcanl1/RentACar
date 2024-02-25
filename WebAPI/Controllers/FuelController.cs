@@ -1,45 +1,54 @@
-﻿using Business.Abstract;
+﻿using Business;
+using Business.Abstract;
 using Business.Requests.Fuel;
 using Business.Responses.Fuel;
-using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAPI.Controllers
+namespace WebAPI.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class FuelController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class FuelsController : ControllerBase
+    private readonly IFuelService _fuelService; // Field
+
+    public FuelController(IFuelService fuelService)
     {
-        private readonly IFuelService _fuelService;
+        _fuelService = fuelService;
+    }
 
-        public FuelsController(IFuelService fuelService)
+
+    [HttpGet] // GET 
+    public GetFuelListResponse GetList([FromQuery] GetFuelListRequest request)
+    {
+        GetFuelListResponse response = _fuelService.GetList(request);
+        return response; // JSON
+    }
+
+    [HttpPost] // POST http://localhost:5245/api/brands
+    public ActionResult<AddFuelResponse> Add(AddFuelRequest request)
+    {
+        AddFuelResponse response = _fuelService.Add(request);
+
+        return CreatedAtAction(nameof(GetList), response); // 201 Created
+    }
+    [HttpDelete]
+    public DeleteFuelResponse Delete(DeleteFuelRequest request)
+    {
+        DeleteFuelResponse fuelResponse = _fuelService.Delete(request);
+        return fuelResponse;
+    }
+    [HttpPut("{id}")]
+    public ActionResult<UpdateFuelResponse> UpdateFuel(int id, [FromBody] UpdateFuelRequest request)
+    {
+        try
         {
-            _fuelService = fuelService;
-            //_fuelService = ServiceRegistration.FuelService;
+            UpdateFuelResponse response = _fuelService.Update(id, request);
+            return Ok(response);
         }
-
-        //[HttpGet]
-        //public ICollection<Fuel>GetList()
-        //{
-        //    //IList<Fuel> fuelList = _fuelService.GetList();
-        //    //return fuelList;
-        //}
-
-        [HttpGet]
-
-        public GetFuelListResponse GetList([FromQuery] GetFuelListRequest request)
+        catch (Exception ex)
         {
-            GetFuelListResponse response = _fuelService.GetList(request);
-            return response;
-        }
-
-        [HttpPost]
-        public ActionResult<AddFuelResponse> Add(AddFuelRequest request)
-        {
-
-            AddFuelResponse response = _fuelService.Add(request);
-            return CreatedAtAction(nameof(GetList), response);
+            return BadRequest(ex.Message);
         }
     }
 }

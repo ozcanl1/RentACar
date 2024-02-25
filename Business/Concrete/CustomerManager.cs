@@ -2,52 +2,51 @@
 using Business.Abstract;
 using Business.BusinessRules;
 using Business.Requests.Customer;
-using Business.Responses.Customer;
+using Business.Responses.Users;
 using DataAccess.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Entities.Concrete;
 
-namespace Business.Concrete
+namespace Business.Concrete;
+
+public class CustomerManager : ICustomersService
 {
-    public class CustomerManager : ICustomerService
+    private readonly CustomerBusinessRules _customerRules;
+    private readonly ICustomerDal _customerDal;
+    private readonly IMapper _mapper;
+
+    public CustomerManager(CustomerBusinessRules customerRules, ICustomerDal customerDal, IMapper mapper)
     {
-        private readonly ICustomerDal _customerDal;
-        private readonly CustomerBusinessRules _customerBusinessRules;
-        private readonly IMapper _mapper;
+        _customerRules = customerRules;
+        _customerDal = customerDal;
+        _mapper = mapper;
+    }
 
-        public CustomerManager(ICustomerDal customerDal, CustomerBusinessRules customerBusinessRules, IMapper mapper)
-        {
-            _customerDal = customerDal;
-            _customerBusinessRules = customerBusinessRules;
-            _mapper = mapper;
-        }
+    public AddCustomerResponse Add(AddCustomerRequest request)
+    {
+        Customer customerToAdd = _mapper.Map<Customer>(request);
+        _customerDal.Add(customerToAdd);
+        AddCustomerResponse response = _mapper.Map<AddCustomerResponse>(customerToAdd);
+        return response;
+    }
 
-        public AddCustomerResponse Add(AddCustomerRequest request)
-        {
-            throw new NotImplementedException();
-        }
+    public DeleteCustomerResponse Delete(DeleteCustomerRequest request)
+    {
+        Customer customer = _customerRules.FindId(request.CustomerId);
+        _customerRules.CheckIfUserNoExists(request.CustomerId);
+        _customerDal.Delete(customer);
+        DeleteCustomerResponse customerResponse = _mapper.Map<DeleteCustomerResponse>(customer);
+        return customerResponse;
 
-        public DeleteCustomerResponse Delete(DeleteCustomerRequest request)
-        {
-            throw new NotImplementedException();
-        }
+    }
+    public GetCustomerListResponse GetList(GetCustomerListRequest request)
+    {
+        IList<Customer> customerList = _customerDal.GetList();
+        var response = _mapper.Map<GetCustomerListResponse>(customerList);
+        return response;
+    }
 
-        public GetCustomerByIdResponse GetById(GetCustomerByIdRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
-        public GetCustomerListResponse GetList(GetCustomerListRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
-        public UpdateCustomerResponse Update(UpdateCustomerRequest request)
-        {
-            throw new NotImplementedException();
-        }
+    public UpdateCustomerResponse Update(int id, UpdateCustomerRequest request)
+    {
+        throw new NotImplementedException();
     }
 }

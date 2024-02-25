@@ -1,22 +1,13 @@
 ﻿using Business.Requests.Car;
 using Business.Responses.Car;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Business.Abstract
+namespace Business.Abstract;
+
+public interface ICarService
 {
-    public interface ICarService
+    public AddCarResponse Add(AddCarRequest request);
+    public DeleteCarResponse Delete(DeleteCarRequest request);
+    public UpdateCarResponse Update(int id, UpdateCarRequest request);
 
-    {
-        public AddCarResponse Add(AddCarRequest request);
-
-        public GetCarListResponse GetList(GetCarListRequest request);
-        public GetCarByIdResponse GetById(GetCarByIdRequest request);
-
-        public UpdateCarResponse Update(UpdateCarRequest request);
-        public DeleteCarResponse Delete(DeleteCarRequest request);
-    }
+    public GetCarResponse GetList(GetCarRequest request);
 }

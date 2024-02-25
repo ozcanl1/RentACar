@@ -1,54 +1,83 @@
-﻿using Azure.Core;
+﻿using AutoMapper;
 using Business.Abstract;
-using Business.Requests.User;
+using Business.BusinessRules;
+using Business.Requests.Users;
+using Business.Responses.Users;
 using Core.Entities;
 using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Business.Concrete
+namespace Business.Concrete;
+
+public class UserManager : IUserService
 {
-    public class UserManager : IUserService
+    private readonly UserRules _userRules;
+    private readonly IUserDal _userDal;
+    private readonly IMapper _mapper;
+    private readonly ITokenHelper _tokenHelper;
+
+    public UserManager(UserRules userRules, IMapper mapper, IUserDal usersDal, ITokenHelper tokenhelper)
     {
-        private readonly IUserDal _userDal;
-        private readonly ITokenHelper _tokenHelper;
-        public UserManager(IUserDal userDal, ITokenHelper tokenHelper)
+        _userRules = userRules;
+        _mapper = mapper;
+        _userDal = usersDal;
+        _tokenHelper = tokenhelper;
+    }
+    public AddUserResponse Add(AddUserRequest request)
+    {
+        User userToAdd = _mapper.Map<User>(request);
+        byte[] passwordSalt, passwordHash;
+        HashingHelper.CreatePasswordHash(request.Password, out passwordHash, out passwordSalt);
+        userToAdd.PasswordSalt = passwordSalt;
+        userToAdd.PasswordHash = passwordHash;
+        userToAdd.Approved = false;
+        _userDal.Add(userToAdd);
+        AddUserResponse response = _mapper.Map<AddUserResponse>(userToAdd);
+        return response;
+    }
+
+    public UpdateUserResponse Update(int id, UpdateUserRequest request)
+    {
+        User existingUser = _userDal.Get(m => m.Id == id);
+
+        if (existingUser == null)
         {
-            _userDal = userDal;
-            _tokenHelper = tokenHelper;
+            throw new Exception("User not found");
         }
 
-        public AccessToken Login(LoginRequest request)
-        {
-            User? user = _userDal.Get(i => i.Email == request.Email);
-            // Business Rules...
+        _mapper.Map(request, existingUser);
+        _userDal.Update(existingUser);
 
-            bool isPasswordCorrect = HashingHelper.VerifyPassword(request.Password, user.PasswordHash, user.PasswordSalt);
+        UpdateUserResponse response = _mapper.Map<UpdateUserResponse>(existingUser);
+        return response;
+    }
 
-            if (!isPasswordCorrect)
-                throw new Exception("Şifre yanlış.");
-            return _tokenHelper.CreateToken(user);
-        }
 
-        public void Register(RegisterRequest request)
-        {
-            byte[] passwordSalt, passwordHash;
-            HashingHelper.CreatePasswordHash(request.Password, out passwordHash, out passwordSalt);
+    public DeleteUserResponse Delete(DeleteUserRequest request)
+    {
+        User user = _userRules.FindId(request.Id);
+        _userRules.CheckIfUserNoExists(request.Id);
+        _userDal.Delete(user);
+        DeleteUserResponse userResponse = _mapper.Map<DeleteUserResponse>(user);
+        return userResponse;
+    }
 
-            // TODO: Auto-Mapping
-            User user = new User();
-            user.Email = request.Email;
-            user.Approved = false;
-            user.PasswordSalt = passwordSalt;
-            user.PasswordHash = passwordHash;
+    public GetUserListResponse GetList(GetUserListRequest request)
+    {
+        IList<User> userList = _userDal.GetList();
+        var response = _mapper.Map<GetUserListResponse>(userList);
+        return response;
+    }
 
-            _userDal.Add(user);
-        }
+    public AccessToken Login(LoginRequest request)
+    {
+        User? user = _userDal.Get(i => i.Email == request.Email);
+        int role = (int)user.RoleId;
+        bool isPasswordCorrect = HashingHelper.VerifyPassword(request.Password, user.PasswordHash, user.PasswordSalt);
+        if (!isPasswordCorrect)
+            throw new Exception("Sifre Yanlis");
+        return _tokenHelper.CreateToken(user, role);
     }
 }

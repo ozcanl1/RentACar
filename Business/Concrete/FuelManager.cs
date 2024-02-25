@@ -4,7 +4,6 @@ using Business.BusinessRules;
 using Business.Requests.Brand;
 using Business.Requests.Fuel;
 using Business.Responses.Fuel;
-using Business.Responses.FuelResponse;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;

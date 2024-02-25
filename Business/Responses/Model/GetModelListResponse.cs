@@ -1,14 +1,20 @@
-﻿using Business.Dtos.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Business.Dtos.Car;
+using Business.Dtos.Model;
 
-namespace Business.Responses.Model
+namespace Business.Responses.Model;
+
+public class GetModelListResponse
 {
-    public class GetModelListResponse
+    public ICollection<ModelListItemDto> Items { get; set; }
+
+    public GetModelListResponse()
     {
-        public ICollection<ModelListItemDto> Items { get; set; }
+        Items = Array.Empty<ModelListItemDto>();
     }
+
+    public GetModelListResponse(ICollection<ModelListItemDto> items)
+    {
+        Items = items;
+    }
+
 }

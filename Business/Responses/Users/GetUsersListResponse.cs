@@ -1,14 +1,17 @@
-﻿using Business.Dtos.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Business.Responses.Users
+﻿
+namespace Business.Responses.Users;
+public class GetUserListResponse
 {
-    public class GetUsersListResponse
+    public ICollection<UsersListItemDto> Items { get; set; }
+
+    public GetUserListResponse()
     {
-        public ICollection<UserListItemDto> Items { get; set; }
+        Items = Array.Empty<UsersListItemDto>();
     }
+
+    public GetUserListResponse(ICollection<UsersListItemDto> items)
+    {
+        Items = items;
+    }
+
 }

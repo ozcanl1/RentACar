@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Business.Responses.Users;
 
-namespace Business.Responses.Users
+public class DeleteUserResponse
 {
-    public class DeleteUsersResponse
+    public int Id { get; set; }
+    public string Email { get; set; }
+    public DateTime DeletedAt { get; set; }
+
+    public DeleteUserResponse(int id, DateTime deletedAt, string email)
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateTime DeletedAt { get; set; }
+        Id = id;
+        Email = email;
+        DeletedAt = deletedAt;
     }
 }

@@ -1,28 +1,15 @@
-﻿using Business.Requests.Car;
-using Business.Requests.Model;
-using Business.Responses.Car;
+﻿using Business.Requests.Model;
 using Business.Responses.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Business.Abstract
+namespace Business.Abstract;
+
+public interface IModelService
 {
-    public interface IModelService
+    public AddModelResponse Add(AddModelRequest request);
+    public DeleteModelResponse Delete(DeleteModelRequest request);
+    public UpdateModelResponse Update(int id, UpdateModelRequest request);
 
-    {
-        public AddModelResponse Add(AddModelRequest request);
+    public GetModelByIdResponse GetById(GetModelByIdRequest request);
+    public GetModelListResponse GetList(GetModelListRequest request);
 
-        public GetModelListResponse GetList(GetModelListRequest request);
-
-        public GetModelByIdResponse GetById(GetModelByIdRequest request);
-
-        public UpdateModelResponse Update(UpdateModelRequest request);
-        public DeleteModelResponse Delete(DeleteModelRequest request);
-
-
-
-    }
 }

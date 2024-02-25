@@ -3,34 +3,27 @@ using Business.Dtos.Model;
 using Business.Requests.Model;
 using Business.Responses.Model;
 using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
-namespace Business.Profiles.Mapping.AutoMapper
+namespace Business.Profiles.Mapping.AutoMapper;
+
+public class ModelMapperProfiles : Profile
 {
-    public class ModelMapperProfiles : Profile
+    public ModelMapperProfiles()
     {
-        public ModelMapperProfiles()
-        {
-            CreateMap<AddModelRequest, Model>();
-            CreateMap<Model, AddModelResponse>();
+        CreateMap<AddModelRequest, Model>();
+        CreateMap<Model, AddModelResponse>();
 
-            CreateMap<Model, ModelListItemDto>();
-
-            CreateMap<IList<Model>, GetModelListResponse>()
-                .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src));
-
-            CreateMap<Model, DeleteModelResponse>();
-            CreateMap<Model, GetModelByIdResponse>();
-
-            CreateMap<UpdateModelResponse, Model>();
-            CreateMap<Model, UpdateModelResponse>();
-
-
-        }
+        CreateMap<Model, ModelListItemDto>();
+        CreateMap<IList<Model>, GetModelListResponse>()
+            .ForMember(
+                destinationMember: dest => dest.Items,
+                memberOptions: opt => opt.MapFrom(mapExpression: src => src)
+            );
+        CreateMap<Model, DeleteModelResponse>();
+        CreateMap<UpdateModelRequest, Model>();
+        CreateMap<Model, UpdateModelResponse>()
+           .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
     }
 }
+

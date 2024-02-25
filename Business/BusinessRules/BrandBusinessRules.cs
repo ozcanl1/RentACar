@@ -1,45 +1,37 @@
 ﻿using Core.CrossCuttingConcerns.Exceptions;
 using DataAccess.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Entities.Concrete;
+namespace Business.BusinessRules;
 
-namespace Business.BusinessRules
+public class BrandBusinessRules
 {
-    public class BrandBusinessRules
+    private readonly IBrandDal _brandDal;
+
+    public BrandBusinessRules(IBrandDal brandDal)
     {
+        _brandDal = brandDal;
+    }
 
-        private readonly IBrandDal _brandDal;
-
-        public BrandBusinessRules(IBrandDal brandDal)
+    public void CheckIfBrandNameNotExists(string brandName)
+    {
+        bool isExists = _brandDal.Get(brand => brand.Name == brandName) is not null;
+        if (isExists)
         {
-            _brandDal = brandDal;
+            throw new BusinessException("Brand already exists.");
         }
+    }
 
-        public void CheckIfBrandNameNotExists(string brandName)
+    public Brand FindId(int id)
+    {
+        Brand brand = _brandDal.GetList().Where(a => a.Id == id).FirstOrDefault();
+        return brand;
+    }
+    public void CheckIfBrandNoExists(int id)
+    {
+        bool isExists = _brandDal.GetList().Any(a => a.Id == id);
+        if (!isExists)
         {
-            bool isExists = _brandDal.Get(brand => brand.Name == brandName) is not null;
-            if (isExists)
-            {
-                throw new BusinessException("Brand aldready exists.");
-            }
-
-            #region İlk kullanım
-            //bool isExists = _brandDal.GetList().Any(brand => brand.Name == brandName);
-
-            ////>Brandler üzerinde bir liste alıp Any methodu ile koleksiyonu tek tek gezecek, Name == brandName ile soru ifadesi olarak geziyor)
-
-            ////Kısaca:Listede adı eşit olan herhangi bir öğe olup olmadığını kontrol etmek için
-
-
-            //    if (isExists)
-            //    {
-            //        throw new BusinessException("Brand aldready exists."); //Varsa hata fırlatacak
-            //    }
-            #endregion
-
+            throw new BusinessException("This id not found");
         }
     }
 }

@@ -1,29 +1,58 @@
-﻿using Business.Abstract;
+﻿using Business;
+using Business.Abstract;
 using Business.Requests.Car;
 using Business.Responses.Car;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAPI.Controllers
+namespace WebAPI.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class CarController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CarsController : ControllerBase
+    private readonly ICarService _carService; // Field
+
+    public CarController(ICarService carService)
     {
-        private readonly ICarService _carService;
+        _carService = carService;
+    }
 
-        public CarsController(ICarService carService)
+
+    [HttpGet]
+    public GetCarResponse GetList([FromQuery] GetCarRequest request)
+    {
+        GetCarResponse response = _carService.GetList(request);
+        return response; // JSON
+    }
+
+    [HttpPost]
+    public ActionResult<AddCarResponse> Add(AddCarRequest request)
+    {
+        AddCarResponse response = _carService.Add(request);
+
+        return CreatedAtAction(nameof(GetList), response); // 201 Created
+    }
+
+
+    [HttpDelete]
+    public DeleteCarResponse Delete(DeleteCarRequest request)
+    {
+        DeleteCarResponse carResponse = _carService.Delete(request);
+        return carResponse;
+    }
+
+
+    [HttpPut("{id}")]
+    public ActionResult<UpdateCarResponse> UpdateCar(int id, [FromBody] UpdateCarRequest request)
+    {
+        try
         {
-            _carService = carService;
+            UpdateCarResponse response = _carService.Update(id, request);
+            return Ok(response);
         }
-
-
-        [HttpGet]
-
-        public GetCarListResponse GetList([FromQuery] GetCarListRequest request)
+        catch (Exception ex)
         {
-            GetCarListResponse response = _carService.GetList(request);
-            return response;
+            return BadRequest(ex.Message);
         }
     }
 }

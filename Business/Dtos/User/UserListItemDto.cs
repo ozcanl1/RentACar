@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Dtos.User
+public class UsersListItemDto
 {
-    public class UserListItemDto
-    {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+    public int Id { get; set; }
+    public string Email { get; set; }
 
+    public UsersListItemDto() { }
+    public UsersListItemDto(int id, string email)
+    {
+        Id = id;
+        Email = email;
     }
 }

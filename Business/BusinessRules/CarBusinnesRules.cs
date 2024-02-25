@@ -1,30 +1,47 @@
-﻿using Core.CrossCuttingConcerns.Exceptions;
+﻿
+
+using Core.CrossCuttingConcerns.Exceptions;
 using DataAccess.Abstract;
-using DataAccess.Concrete.EntityFramework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Entities.Concrete;
 
-namespace Business.BusinessRules
+namespace Business.BusinessRules;
+
+public class CarBusinessRules
 {
-    public class CarBusinessRules
+    private readonly ICarDal _carDal;
+
+    public CarBusinessRules(ICarDal carDal)
     {
-        private readonly ICarDal _carDal;
+        _carDal = carDal;
+    }
 
-        public CarBusinessRules(ICarDal carDal)
+    public void CheckIfCarPlateNotExists(string plateName)
+    {
+        bool isExists = _carDal.GetList().Any(c => c.Plate == plateName);
+        if (isExists)
         {
-            _carDal = carDal;
+            throw new BusinessException("Car already exists.");
         }
-
-        public void CheckIfCarModelYearExists(short modelYear)
+    }
+    public Car FindId(int id)
+    {
+        Car car = _carDal.GetList().Where(a => a.Id == id).FirstOrDefault();
+        return car;
+    }
+    public void CheckIfCarNoExists(int id)
+    {
+        bool isExists = _carDal.GetList().Any(a => a.Id == id);
+        if (!isExists)
         {
-            bool isExists = _carDal.Get(car => car.ModelYear == modelYear) is not null;
-            if (!isExists)
-            {
-                throw new BusinessException("Model year already exists.");
-            }
+            throw new BusinessException("This id not found");
+        }
+    }
+    public void CheckCarYear(int year)
+    {
+        bool isNotValid = year < 2002;
+        if (isNotValid)
+        {
+            throw new BusinessException("Model Year must upper2002.");
         }
     }
 }

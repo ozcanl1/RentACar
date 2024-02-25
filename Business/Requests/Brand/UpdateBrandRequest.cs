@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Business.Requests.Brand;
 
-namespace Business.Requests.Brand
+public class UpdateBrandRequest
 {
-    public class UpdateBrandRequest
+    public string Name { get; set; }
+    public UpdateBrandRequest(string name)
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        Name = name;
     }
 }

@@ -1,55 +1,54 @@
-﻿using Business.Abstract;
+﻿using Azure.Core;
+using Business.Abstract;
+using Business.Dtos.Model;
 using Core.CrossCuttingConcerns.Exceptions;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace Business.BusinessRules;
 
-namespace Business.BusinessRules
+public class ModelBusinessRules
 {
-    public class ModelBusinessRules
+    private readonly IModelDal _modelDal;
+    private readonly IBrandService _brandService;
 
+    public ModelBusinessRules(IModelDal modelDal, IBrandService brandService)
     {
-        private readonly IModelDal _modelDal;
-        private readonly IBrandService _brandService;
+        _modelDal = modelDal;
+        _brandService = brandService;
+    }
 
-        public ModelBusinessRules(IModelDal modelDal, IBrandService brandService)
+    public void CheckIfModelNameIsValid(string Name)
+    {
+        if (Name.Length < 2)
         {
-            _modelDal = modelDal;
-            _brandService = brandService;
+            throw new BusinessException("Model name must be at least 2 characters long.");
         }
-
-        public void CheckIfModelNameExists(string name)
+    }
+    public void CheckIfDailyPriceIsValid(decimal dailyPrice)
+    {
+        if (dailyPrice <= 0)
         {
-            bool isNameExists = _modelDal.Get(m => m.Name == name) != null;
-            if (!isNameExists)
-            {
-                throw new BusinessException("Model name already exists.");
-            }
+            throw new BusinessException("Daily price must be greater than 0.");
         }
+    }
 
-        public void CheckIfModelExists(Model? model)
+    public Model FindId(int id)
+    {
+        Model model = _modelDal.GetList().Where(a => a.Id == id).FirstOrDefault();
+        return model;
+    }
+    public void CheckIfModelNoExists(int id)
+    {
+        bool isExists = _modelDal.GetList().Any(a => a.Id == id);
+        if (!isExists)
         {
-            if (model is null)
-
-                throw new NotFoundException("Model not found");
+            throw new BusinessException("This id not found");
         }
-
-        public void CheckIfModelYearShouldBeInLast20Years(short year)
-        {
-            if (year < DateTime.UtcNow.AddYears(-20).Year)
-                throw new BusinessException("Model year should be in last 20 years.");
-        }
-
-        public void CheckIfBrandExists(int brandId)
-        {
-
-            Brand? brand = _brandService.GetById(brandId);
-            if (brand is null)
-                throw new Exception("Böyle bir marka yok.");
-        }
+    }
+    public void CheckIfBrandNameExists(int brandId)
+    {
+        Brand? brand = _brandService.GetById(brandId);
+        if (brand is null)
+            throw new Exception("Marka bulunamadı");
     }
 }

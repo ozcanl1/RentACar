@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Business.Responses.Brand;
 
-namespace Business.Responses.Brand
+public class UpdateBrandResponse
 {
-    public class UpdateBrandResponse
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public DateTime UpdatedAt { get; set; }
+
+    public UpdateBrandResponse(int id, string name, DateTime updatedAt)
     {
-        public string Name { get; set; }
+        Id = id;
+        Name = name;
+        UpdatedAt = updatedAt;
     }
+    public UpdateBrandResponse() { }
+
 }

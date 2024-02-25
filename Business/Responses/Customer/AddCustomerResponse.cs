@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Business.Responses.Customer
+﻿namespace Business
 {
     public class AddCustomerResponse
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public int IndividualCustomerId { get; set; }
-        public int CorporateCustomerId { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public AddCustomerResponse() { }
+        public AddCustomerResponse(DateTime createdDate)
+        {
+            CreatedDate = createdDate;
+        }
     }
 }

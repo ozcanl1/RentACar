@@ -5,71 +5,62 @@ using Business.Requests.Car;
 using Business.Responses.Car;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Business.Concrete
+namespace Business.Concrete;
+
+public class CarManager : ICarService
 {
-    public class CarManager : ICarService
+    private readonly ICarDal _carDal;
+    private readonly CarBusinessRules _carBusinessRules;
+    private readonly IMapper _mapper;
+
+    public CarManager(ICarDal carDal, CarBusinessRules carBusinessRules, IMapper mapper)
     {
-        private readonly ICarDal _carDal;
-        private readonly CarBusinessRules _carBusinessRules;
-        private readonly IMapper _mapper;
-
-        public CarManager(ICarDal carDal, CarBusinessRules carBusinessRules, IMapper mapper)
-        {
-            _carDal = carDal;
-            _carBusinessRules = carBusinessRules;
-            _mapper = mapper;
-        }
-
-        public AddCarResponse Add(AddCarRequest request)
-        {
-            if (!IsValidModelYear(request.ModelYear))
-            {
-                throw new ArgumentException("Model year can be up to 20 years old");
-            }
-
-            _carBusinessRules.CheckIfCarModelYearExists(request.ModelYear);
-
-            var carToAdd = _mapper.Map<Car>(request);
-            // Burada carToAdd ile yapılan işlemleri tamamlayın.
-
-            var response = _mapper.Map<AddCarResponse>(carToAdd);
-            return response;
-        }
-
-        private bool IsValidModelYear(short modelYear)
-        {
-            int currentYear = DateTime.Now.Year;
-            return (currentYear - modelYear) <= 20;
-        }
-        public GetCarListResponse GetList(GetCarListRequest request)
-        {
-            IList<Car> carList = _carDal.GetList();
-            GetCarListResponse response = _mapper.Map<GetCarListResponse>(carList);
-            return response;
-        }
-
-        public GetCarByIdResponse GetById(GetCarByIdRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
-        public UpdateCarResponse Update(UpdateCarRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
-        public DeleteCarResponse Delete(DeleteCarRequest request)
-        {
-            throw new NotImplementedException();
-        }
+        _carDal = carDal;
+        _carBusinessRules = carBusinessRules;
+        _mapper = mapper;
     }
 
+    public AddCarResponse Add(AddCarRequest request)
+    {
+        _carBusinessRules.CheckIfCarPlateNotExists(request.Plate);
+
+        Car carToAdd = _mapper.Map<Car>(request);
+        _carDal.Add(carToAdd);
+        AddCarResponse response = _mapper.Map<AddCarResponse>(carToAdd);
+        return response;
+    }
+
+    public GetCarResponse GetList(GetCarRequest request)
+    {
+        IList<Car> carList = _carDal.GetList();
+
+        GetCarResponse response = _mapper.Map<GetCarResponse>(carList); // Mapping
+        return response;
+    }
+    public DeleteCarResponse Delete(DeleteCarRequest request)
+    {
+        Car car = _carBusinessRules.FindId(request.Id);
+        _carBusinessRules.CheckIfCarNoExists(request.Id);
+        _carDal.Delete(car);
+        DeleteCarResponse carResponse = _mapper.Map<DeleteCarResponse>(car);
+        return carResponse;
+    }
+
+    public UpdateCarResponse Update(int id, UpdateCarRequest request)
+    {
+        Car existingCar = _carDal.Get(c => c.Id == id);
+
+        if (existingCar == null)
+        {
+            throw new Exception("Car not found");
+        }
+
+        _mapper.Map(request, existingCar);
+        _carDal.Update(existingCar);
+
+        UpdateCarResponse response = _mapper.Map<UpdateCarResponse>(existingCar);
+        return response;
+    }
 
 }
-

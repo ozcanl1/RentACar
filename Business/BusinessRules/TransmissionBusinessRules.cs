@@ -1,30 +1,36 @@
-﻿using DataAccess.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.CrossCuttingConcerns.Exceptions;
+using DataAccess.Abstract;
+using Entities.Concrete;
+namespace Business.BusinessRules;
 
-namespace Business.BusinessRules
+public class TransmissionBusinessRules
 {
-    public class TransmissionBusinessRules
+    private readonly ITransmissionDal _Transmissiondal;
+
+    public TransmissionBusinessRules(ITransmissionDal Transmissiondal)
     {
-        private readonly ITransmissionDal _transmissionDal;
-
-        public TransmissionBusinessRules(ITransmissionDal transmissionDal)
+        _Transmissiondal = Transmissiondal;
+    }
+    public void CheckIfTransmissionNameNotExists(string TransmissionName)
+    {
+        bool isExists = _Transmissiondal.GetList().Any(t => t.Name == TransmissionName);
+        if (isExists)
         {
-            _transmissionDal = transmissionDal;
+            throw new Exception("Transmission already exists.");
         }
+    }
 
-        public void CheckIfTransmissionNameNotExists(string transmissionName)
+    public Transmission FindId(int id)
+    {
+        Transmission transmission = _Transmissiondal.GetList().Where(a => a.Id == id).FirstOrDefault();
+        return transmission;
+    }
+    public void CheckIfTransmissionNoExists(int id)
+    {
+        bool isExists = _Transmissiondal.GetList().Any(a => a.Id == id);
+        if (!isExists)
         {
-            bool isExists = _transmissionDal.GetList().Any(t => t.Name == transmissionName);
-
-            if (isExists)
-            {
-                throw new Exception("Transmission already exists.");
-            }
+            throw new Exception("This id not found");
         }
-
     }
 }

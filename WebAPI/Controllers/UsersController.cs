@@ -1,33 +1,59 @@
 ﻿using Business.Abstract;
-using Business.Requests.User;
+using Business.Requests.Users;
+using Business.Responses.Users;
 using Core.Utilities.Security.JWT;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAPI.Controllers
+namespace WebAPI.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class UserController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UsersController : ControllerBase
+    private readonly IUserService _userService;
+    public UserController(IUserService userService)
     {
-        private readonly IUserService _userService;
+        _userService = userService;
+    }
 
-        public UsersController(IUserService userService)
+    [HttpGet] // GET 
+    public GetUserListResponse GetList([FromQuery] GetUserListRequest request)
+    {
+        GetUserListResponse response = _userService.GetList(request);
+        return response; // JSON
+    }
+
+    [HttpPost] // POST
+    public ActionResult<AddUserResponse> Add(AddUserRequest request)
+    {
+        AddUserResponse response = _userService.Add(request);
+
+        return CreatedAtAction(nameof(GetList), response); // 201 Created
+    }
+    [HttpPost("Login")]
+    public AccessToken Login([FromBody] LoginRequest request)
+    {
+        return _userService.Login(request);
+    }
+
+    [HttpDelete]
+    public DeleteUserResponse Delete(DeleteUserRequest request)
+    {
+        DeleteUserResponse userResponse = _userService.Delete(request);
+        return userResponse;
+    }
+
+    [HttpPut("{id}")]
+    public ActionResult<UpdateUserResponse> UpdateUser(int id, [FromBody] UpdateUserRequest request)
+    {
+        try
         {
-            _userService = userService;
+            UpdateUserResponse response = _userService.Update(id, request);
+            return Ok(response);
         }
-
-
-        [HttpPost("Register")]
-        public void Register([FromBody] RegisterRequest request)
+        catch (Exception ex)
         {
-            _userService.Register(request);
-        }
-        [HttpPost("Login")]
-        public AccessToken Login([FromBody] LoginRequest request)
-        {
-            return _userService.Login(request);
+            return BadRequest(ex.Message);
         }
     }
 }
-// 6:50

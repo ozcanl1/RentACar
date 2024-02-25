@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Business.Responses.Users;
 
-namespace Business.Responses.Users
+public class UpdateUserResponse
 {
-    public class UpdateUserResponse
+    public int Id { get; set; }
+    public string Email { get; set; }
+    public DateTime UpdatedAt { get; set; }
+
+    public UpdateUserResponse(int id, DateTime updatedAt, string email)
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public DateTime UpdatedAt { get; set; }
-
-
+        Id = id;
+        UpdatedAt = updatedAt;
+        Email = email;
     }
+    public UpdateUserResponse() { }
 }

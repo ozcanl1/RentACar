@@ -1,86 +1,76 @@
 ﻿using Business;
 using Business.Abstract;
-using Business.Concrete;
 using Business.Requests.Brand;
 using Business.Responses.Brand;
-using DataAccess.Abstract;
-using DataAccess.Concrete.InMemory;
-using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAPI.Controllers
+namespace WebAPI.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class BrandsController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class BrandsController : ControllerBase
+    private readonly IBrandService _brandService; // Field
+
+    public BrandsController(IBrandService brandService)
     {
-        //field olarak Brand'i tanımlayalım
-        private readonly IBrandService _brandService; //Field
+        _brandService = brandService;
+    }
 
-        public BrandsController(IBrandService brandService)
 
+    [HttpGet] // GET http://localhost:5245/api/brands
+    public GetBrandListResponse GetList([FromQuery] GetBrandListRequest request) // Referans tipleri varsayılan olarak request body'den alır.
+    {
+        GetBrandListResponse response = _brandService.GetList(request);
+        return response; // JSON
+    }
+
+    [HttpPost] // POST http://localhost:5245/api/brands
+    //[Authorize] // Controller içerisinde kullanılır.
+    public ActionResult<AddBrandResponse> Add(AddBrandRequest request)
+    {
+        // Log kodları
+        try
         {
-            //Her HTTP Request için yeni bir Controller nesnesi oluşturuyor.
-            //IBrandDal brandDal = new InMemoryBrandDal();
-            //_brandService = new BrandManager(brandDal);
-            //IoC Container yapısını kurunca dependency injection ile olacak.
+            AddBrandResponse response = _brandService.Add(request);
 
-
-            // _brandService = ServiceRegistration.BrandService;
-            _brandService = brandService;
+            //return response; // 200 OK
+            return CreatedAtAction(nameof(GetList), response); // 201 Created
         }
-
-        //[HttpGet]
-        //public ActionResult<string> GetList() /*IActionResult GetList()*/
-        //{
-        //    return Ok("BrandsController");
-        //} 
-
-        //[HttpGet]
-        //public string GetList() //Veriyi direk bu şekilde dönebilirim
-        //{
-        //    return "BrandsController";
-        //}
-
-
-        [HttpGet]
-        public GetBrandListResponse GetList([FromQuery] GetBrandListRequest request) // Referans tipleri varsayılan olarak request body'den alır.
+        catch (Core.CrossCuttingConcerns.Exceptions.BusinessException exception)
         {
-
-            GetBrandListResponse response = _brandService.GetList(request);
-            return response; //JSON
+            return BadRequest(
+                new Core.CrossCuttingConcerns.Exceptions.BusinessProblemDetails()
+                {
+                    Title = "Business Exception",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = exception.Message,
+                    Instance = HttpContext.Request.Path
+                }
+            );
+            // 400 Bad Request
         }
+    }
 
-        //[HttpPost("/add")]  // POST http://localhost:5112/api/brands/add //endpoint 
 
-        [HttpPost]  // POST http://localhost:5112/api/brands
-        public ActionResult<AddBrandResponse> Add(AddBrandRequest request)
+    [HttpDelete]
+    public ActionResult<DeleteBrandResponse> Delete(DeleteBrandRequest request)
+    {
+        DeleteBrandResponse brandResponse = _brandService.Delete(request);
+        return brandResponse;
+    }
+
+    [HttpPut("{id}")]
+    public ActionResult<UpdateBrandResponse> UpdateBrand(int id, [FromBody] UpdateBrandRequest request)
+    {
+        try
         {
-            try
-            {
-                AddBrandResponse response = _brandService.Add(request);
-                //return response;
-                return CreatedAtAction(nameof(GetList), response);
-            }
-
-
-            catch (Core.CrossCuttingConcerns.Exceptions.BusinessException exception)
-            {
-                return BadRequest(
-
-                    new Core.CrossCuttingConcerns.Exceptions.BusinessProblemDetails()
-                    {
-                        Title = "Business Exception",
-                        Status = StatusCodes.Status400BadRequest,
-                        Detail = exception.Message,
-                        Instance = HttpContext.Request.Path
-                    }
-                ); //400 Bad Request
-
-            }
+            UpdateBrandResponse response = _brandService.Update(id, request);
+            return Ok(response);
         }
-
-
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

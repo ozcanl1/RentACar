@@ -1,9 +1,19 @@
 ﻿using Business.Dtos.CorporateCustomer;
 
-namespace Business.Responses.CorporateCustomer
+namespace Business.Responses.CorporateCustomer;
+
+public class GetCorporateCustomerListResponse
 {
-    public class GetCorporateCustomerListResponse
+
+    public ICollection<CorporateCustomerListItemDto> Items { get; set; }
+
+    public GetCorporateCustomerListResponse()
     {
-        public ICollection<CorporateCustomerListItemDto> Items { get; set; }
+        Items = Array.Empty<CorporateCustomerListItemDto>();
+    }
+
+    public GetCorporateCustomerListResponse(ICollection<CorporateCustomerListItemDto> items)
+    {
+        Items = items;
     }
 }
