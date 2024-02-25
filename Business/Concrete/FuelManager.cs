@@ -31,7 +31,7 @@ namespace Business.Concrete
         {
             _fuelBusinessRules.CheckIfFuelNameNotExist(request.Name);
 
-            Fuel fuelToAdd = _mapper.Map<Fuel>(request);
+           Entities.Concrete.Fuel fuelToAdd = _mapper.Map<Entities.Concrete.Fuel>(request);
             _fuelDal.Add(fuelToAdd);
 
             AddFuelResponse response = _mapper.Map<AddFuelResponse>(fuelToAdd);
@@ -50,14 +50,19 @@ namespace Business.Concrete
 
         public GetFuelListResponse GetList(GetFuelListRequest request)
         {
-            IList<Fuel> fuelList = _fuelDal.GetList();
+            IList<Entities.Concrete.Fuel> fuelList = _fuelDal.GetList();
             GetFuelListResponse response = _mapper.Map<GetFuelListResponse>(fuelList);
             return response;
             //IList<Fuel> fuelList = _fuelDal.GetList();
             //return fuelList;
         }
 
-        public UpdateFuelResponse Update(UpdateFuelRequest request)
+        //public UpdateFuelResponse Update(UpdateFuelRequest request)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public UpdateFuelResponse Update(int id, UpdateFuelRequest request)
         {
             throw new NotImplementedException();
         }

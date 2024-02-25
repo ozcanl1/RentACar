@@ -15,6 +15,11 @@ using Fuel.Requests;
 using Fuel.Responses;
 using Business.Requests;
 using Business.Responses;
+using Business.Requests.Fuel;
+using Business.Responses.Fuel;
+using Business.Dtos.Transmission;
+using Business.Requests.Transmission;
+using Business.Responses.Transmission;
 
 namespace WebAPI;
 
@@ -38,36 +43,38 @@ public static class ServiceRegistration
         cfg.CreateMap<Entities.Concrete.Fuel, AddFuelResponse>();
         cfg.CreateMap<AddTransmissionRequest, Entities.Concrete.Transmission>();
         cfg.CreateMap<Entities.Concrete.Transmission, AddTransmissionResponse>();
-        cfg.CreateMap<AddModelRequest,Model>();
+        cfg.CreateMap<AddModelRequest, Model>();
         cfg.CreateMap<Model, AddModelResponse>();
         cfg.CreateMap<AddCarRequest, Car>();
         cfg.CreateMap<Car, AddCarResponse>();
 
 
 
+
+
     }).CreateMapper();
 
-    public static readonly IBrandService BrandService = new BrandManager(
-        BrandDal,
-        BrandBusinessRules,
-        Mapper
-    );
-    public static readonly IFuelService FuelService = new Fuel.Concrete.FuelManager(
-        FuelDal,
-        Mapper
-    );
+    //public static readonly IBrandService BrandService = new BrandManager(
+    //    BrandDal,
+    //    BrandBusinessRules,
+    //    Mapper
+    //);
+    //public static readonly IFuelService FuelService = new Fuel.Concrete.FuelManager(
+    //    FuelDal,
+    //    Mapper
+    //);
 
-    public static readonly ITransmissionService TransmissionService = new Transmission.Concrete.TransmissionManager(TransmissionDal, Mapper
-    );
+    //public static readonly ITransmissionService TransmissionService = new Transmission.Concrete.TransmissionManager(TransmissionDal, Mapper
+    //);
 
-    public static Business.Abstract.IModelService ModelService  = new ModelManager(
-     ModelDal,
-     Mapper
-     );
+    //public static Business.Abstract.IModelService ModelService  = new ModelManager(
+    // ModelDal,
+    // Mapper
+    // );
 
-    public static readonly ICarService CarService = new CarManager(
-            CarDal,
-            Mapper
-      );
+    //public static readonly ICarService CarService = new CarManager(
+    //        CarDal,
+    //        Mapper
+    //  );
 } // IoC Container yapımızı kurduğumuz Dependency Injection ile daha verimli hale getiricez.
 

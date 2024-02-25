@@ -47,5 +47,10 @@ namespace Core.Utilities.Security.JWT
                 ExpirationTime = expirationTime,
             };
         }
+
+        public AccessToken CreateToken(User user, int role)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

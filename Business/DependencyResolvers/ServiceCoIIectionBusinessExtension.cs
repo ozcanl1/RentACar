@@ -61,7 +61,7 @@ public static class ServiceCollectionBusinessExtension
             .AddScoped<CorporateCustomerBusinessRules>()
             //userjwt
             .AddScoped<ITokenHelper, JwtTokenHelper>();
-
+    
         services.AddAutoMapper(Assembly.GetExecutingAssembly()); // AutoMapper.Extensions.Microsoft.DependencyInjection NuGet Paketi
         // Reflection yöntemiyle Profile class'ını kalıtım alan tüm class'ları bulur ve AutoMapper'a ekler.
 

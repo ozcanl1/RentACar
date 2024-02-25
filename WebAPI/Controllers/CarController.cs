@@ -2,6 +2,7 @@
 using Business.Abstract;
 using Business.Requests.Car;
 using Business.Responses.Car;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -26,11 +27,13 @@ public class CarController : ControllerBase
     }
 
     [HttpPost]
+   
     public ActionResult<AddCarResponse> Add(AddCarRequest request)
     {
         AddCarResponse response = _carService.Add(request);
 
         return CreatedAtAction(nameof(GetList), response); // 201 Created
+ 
     }
 
 

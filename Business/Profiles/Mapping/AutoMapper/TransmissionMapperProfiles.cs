@@ -16,11 +16,8 @@ public class TransmissionMapperProfiles : Profile
         CreateMap<Transmission, AddTransmissionResponse>();
 
         CreateMap<Transmission, TransmissionListItemDto>();
-        CreateMap<IList<Transmission>, GetTransmissionListResponse>()
-            .ForMember(
-                destinationMember: dest => dest.Items,
-                memberOptions: opt => opt.MapFrom(mapExpression: src => src)
-            );
+        CreateMap<IList<Transmission>, GetTransmissionListResponse>();
+          
         CreateMap<Transmission, DeleteTransmissionResponse>();
         CreateMap<UpdateTransmissionRequest, Transmission>();
         CreateMap<Transmission, UpdateTransmissionResponse>()

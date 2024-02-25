@@ -53,24 +53,24 @@ public class BrandsController : ControllerBase
     }
 
 
-    [HttpDelete]
-    public ActionResult<DeleteBrandResponse> Delete(DeleteBrandRequest request)
-    {
-        DeleteBrandResponse brandResponse = _brandService.Delete(request);
-        return brandResponse;
-    }
+    //[HttpDelete]
+    //public ActionResult<DeleteBrandResponse> Delete(DeleteBrandRequest request)
+    //{
+    //    DeleteBrandResponse brandResponse = _brandService.Delete(request);
+    //    return brandResponse;
+    //}
 
-    [HttpPut("{id}")]
-    public ActionResult<UpdateBrandResponse> UpdateBrand(int id, [FromBody] UpdateBrandRequest request)
-    {
-        try
-        {
-            UpdateBrandResponse response = _brandService.Update(id, request);
-            return Ok(response);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
+    //[HttpPut("{id}")]
+    //public ActionResult<UpdateBrandResponse> UpdateBrand(int id, [FromBody] UpdateBrandRequest request)
+    //{
+    //    try
+    //    {
+    //        UpdateBrandResponse response = _brandService.Update(id, request);
+    //        return Ok(response);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        return BadRequest(ex.Message);
+    //    }
+    //}
 }
